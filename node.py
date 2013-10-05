@@ -18,12 +18,8 @@ class node:
             self.addChild(child)
         self.content = content
         self.keywords = keywords
-<<<<<<< HEAD
         self.suggestedkeywords = set([])
-        self.name = name
-=======
-        
->>>>>>> 4715eb85cfa1b14227319951b0de038668b6707f
+
        
     def __str__ (self):
         return self.name
