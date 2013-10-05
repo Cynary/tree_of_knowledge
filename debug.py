@@ -6,6 +6,10 @@ def findNode(name = ""):
         if i.name == name:
             return i
 
+def seachNode(keys = []):
+    for i in Tree.values():
+        
+
 Tree[node.count] = node("Root", set(["Root", "First step"]), 'First node')
 
 print "ROOT ADDED"
