@@ -8,17 +8,22 @@ class node:
 
         self.ID = self.count
         node.count = node.count+1
-
+        self.name = name
+        
         self.parents = {}
+        self.children = {}
         for parent in parents:
             self.addParent(parent)
-        self.children = {}
         for child in children:
             self.addChild(child)
         self.content = content
         self.keywords = keywords
+<<<<<<< HEAD
         self.suggestedkeywords = set([])
         self.name = name
+=======
+        
+>>>>>>> 4715eb85cfa1b14227319951b0de038668b6707f
        
     def __str__ (self):
         return self.name
@@ -39,11 +44,15 @@ class node:
         if parent.ID not in self.parents:
             self.parents[parent.ID] = parent
             parent.addChild(self)
+            if checkPath(parent):
+                self.removeParent(parent)
 
     def addChild(self, child):
         if child.ID not in self.children:
             self.children[child.ID] = child
             child.addParent(self)
+            if checkPath(self):
+                self.removeChild(child)
 
     def getContent(self):
         return self.content
@@ -93,5 +102,28 @@ class node:
         for i in self.children.values():
             self.removeChild(i)
         
+seen = {}
 
+def checkPath( source):
+    seen = {}
+    #print seen
+    #print "CHECK", source.name
+    if len(source.children) != 0:
+        for i in source.children.values():
+            if DFS(i, source) == True:
+                return True
+    return False
 
+def DFS(current, goal):
+    #print current.name, goal.name
+    if current.ID == goal.ID:
+        #print "Cycle Found"
+        return True
+    if len(current.children) != 0:
+        for o in current.children.values():
+            if not( o.ID in seen):
+                seen[o.ID] = o
+                if DFS(o, goal):
+                    return True
+    return False
+    
