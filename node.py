@@ -1,3 +1,7 @@
+from __future__ import print_function
+from alchemyapi import AlchemyAPI
+import json
+
 class node:
     count = 0
     def __init__(self, name, keywords = set([]), content = '', parents = [], children = []):
@@ -13,6 +17,7 @@ class node:
             self.addChild(child)
         self.content = content
         self.keywords = keywords
+        self.suggestedkeywords = set([])
         self.name = name
        
     def __str__ (self):
@@ -43,10 +48,27 @@ class node:
     def getContent(self):
         return self.content
 
+    #Keywords are for human-set keywords, suggestedkeywords are automatically generated
     def getKeywords(self):
         return self.keywords
 
-    def generateKeywords(self):
+    def setKeywords(self, newkeywords):
+	self.keywords = newkeywords
+	pass
+      
+    def getSuggestedKeywords(self):
+	return self.suggestedkeywords
+    
+    def generateSuggestedKeywords(self):
+        alchemyapi = AlchemyAPI()
+        self.suggestedkeywords = set([])
+        response = alchemyapi.keywords('text',self.content, { 'sentiment':1 })
+	if response['status'] == 'OK':
+		for keyword in response['keywords']:
+		    self.suggestedkeywords.add(keyword['text'].encode('ascii','ignore'))
+	else:
+		print('Error in keyword extaction call: ', response['statusInfo'])
+		self.suggestedkeywords = set(["Automatic keyword generation failed"])
         pass
 
     def editContent(self, newContent):
