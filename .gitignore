@@ -3,4 +3,5 @@
 
 # Rescue files from editors
 *~
-#*
+\#*
+.\#*
