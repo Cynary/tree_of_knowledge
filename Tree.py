@@ -6,7 +6,8 @@ def findNode(name = ""):
         if i.name == name:
             return i
 
-def searchNode(keys = []):
+def searchNode(keywords):
+    keys = keywords.split(' ')
     matches = []  # list of matched node, (% matched, #matched, id)
     for i in Tree.values():
         matched = [k for k in keys if k in i.getKeywords()]
@@ -16,18 +17,22 @@ def searchNode(keys = []):
     matches.sort()
     return [i[2] for i in matches]
         
-def addNode( name, keywords = set([]), content = '', parents = [], children = [] ):
+def addNode( name, content = '', keywords = set([]),  parents = [], children = [] ):
     #print "Add node " + name
     Tree[node.count] = node( name, keywords, content, parents, children)
 
-def delete( nodeID):
+def deleteNode(nodeID):
     Tree[nodeID].deleteConnections()
     del Tree[nodeID]
 
-def setParentof(parID, childID):
+def addEdge(parID, childID):
     if parID in Tree and childID in Tree:
         Tree[parID].addChild(Tree[childID])
     else:
         print "Error - It is not on the Tree"
-    
 
+def deleteEdge(parentID, childID):
+    Tree[parentID].removeChild(Tree[childID])
+
+def editContent(nodeID, newContent):
+    Tree[nodeID].editContent(newContent)
