@@ -17,6 +17,7 @@ def searchNode(keys = []):
     return [i[2] for i in matches]
         
 def addNode( name, keywords = set([]), content = '', parents = [], children = [] ):
+    #print "Add node " + name
     Tree[node.count] = node( name, keywords, content, parents, children)
 
 def delete( nodeID):
@@ -29,3 +30,4 @@ def setParentof(parID, childID):
     else:
         print "Error - It is not on the Tree"
     
+
