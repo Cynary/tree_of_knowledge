@@ -64,5 +64,12 @@ class node:
 
     def __hash__(self):
         return self.ID
+        
+    def deleteConnections(self):
+        for i in self.parents.values():
+            self.removeParent(i)
+        for i in self.children.values():
+            self.removeChild(i)
+        
 
 
