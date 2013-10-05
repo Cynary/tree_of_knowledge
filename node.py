@@ -1,6 +1,6 @@
 class node:
     count = 0
-    def __init__(self, name, keywords = set([]), content = '', parents = {}, children = {}):
+    def __init__(self, name, keywords = set([]), content = '', parents = [], children = []):
 
         self.ID = self.count
         node.count = node.count+1
@@ -15,6 +15,11 @@ class node:
         self.keywords = keywords
         self.name = name
        
+    def __str__ (self):
+        return self.name
+
+    def __repr__ (self):
+        return self.__str__()
 
     def getName(self):
         return self.name
