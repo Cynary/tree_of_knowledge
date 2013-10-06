@@ -233,8 +233,13 @@ $("#viewport").click(function(e){
 	}
     }
     
+
+    
     else{ Focused = -1;}
     
-
+    if(Focused == -1) content =2;
+    else content= 0;
+  
+  if( editing && Focused != -1) content =1;
     return false;
 });
