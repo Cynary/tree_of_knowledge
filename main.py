@@ -1,103 +1,100 @@
-#!/usr/bin/python
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI Example Page</title>
+	<link href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.js"></script>
+	<script>
+	
+	</script>
 
-import tornado.ioloop as ioloop
-import tornado.web as web
-import tornado.websocket as websocket
-import threading
-import socket
+	<script language="javascript" type="text/javascript" src="jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="arbor.js"></script>
+	<script language="javascript" type="text/javascript" src="graphics.js"></script>
+	<script language="javascript" type="text/javascript" src="renderer.js"></script>
+	
+	<style>
+	body{
+		font: 62.5% "Trebuchet MS", sans-serif;
+		margin: 50px;
+	}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
+	</style>
+</head>
+<body>
 
-class closedIndicator:
-    def __init__(self):
-        self.closed = False
 
-    def isClosed(self):
-        return self.closed
-    
-    def close(self):
-        self.closed = True
 
-def serverThread(connHandle):
-    # loop forever waiting for input
-    while True:
-        # get input
-        fromServer = connHandle.serverConn.recv(1048576)
-        # acquire lock because concurrency is evil
-        connHandle.connLock.acquire()
+<div id="tree">
+<canvas id="viewport" width="800" height="600"></canvas>
+<script language ="javascript" type="text/javascript">
+	var sys = arbor.ParticleSystem(1000, 400,1); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
+	sys.parameters({gravity:true});
+	sys.renderer = Renderer("#viewport");
+	var animals = sys.addNode('Animals',{'color':'red','shape':'dot','label':'Animals'});
+	var dog = sys.addNode('Dog', {'color':'blue', 'shape':'dot', 'label':'cat'});
+	var cat = sys.addNode('Cat', {'color':'blue', 'shape':'dot', 'label':'dog'});
+</script>
 
-        # do nothing if connection closed
-        if connHandle.closedIndicator.isClosed():
-            return
+</div> 
 
-        # non-False message sent to connHandle
-        if fromServer:
-            connHandle.write_message(fromServer)
 
-        # False message means connection closed
-        else:
-            connHandle.closeConn()
-            return
+<div id="content">
+</div>
 
-        # lol what if we didn't do this
-        connHandle.connLock.release()
+<script>
+var DocWidth = document.body.clientWidth;
+	function setDivWidth(DocWidth){
+		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth/3 + "px";
+		Tree.style.borderColor= "blue";
+		Tree.style.borderStyle= "solid"
+		var Content = document.getElementById('content');
+		Content.style.width=DocWidth*2/3 + "px"; 
+		Content.style.borderStyle="solid";
+		Content.style.borderColor="red";
+		Content.style.height = document.body.clientHeight; 
+		
+	}
+	setDivWidth(DocWidth);
 
-class connectionHandler(websocket.WebSocketHandler):
-    def open(self,host):
-        print host
-        try:
-            # Extract hostname and port from arguments
-            hostname,port = host.split(';')
-        except:
-            # If there's a problem, it means that the arguments were invalid
-            self.close()
-            return
-        # Create a lock for this connection
-        self.connLock = threading.Lock()
-        # Create socket for server
-        self.serverConn = socket.socket()
-        # Create a closedIndicator object for this connection
-        self.closedIndicator = closedIndicator()
 
-        try:
-            # Connect to specified server and port
-            self.serverConn.connect((hostname,int(port)))
-        except:
-            # If we can't connect to specified server/port, then terminate the connection.
-            self.close()
-            return
-        # Create the server waiting thread and pass in the closed indicator, lock
-        #  and connections.
-        # Since it's all in this object, we just pass self.
-        threading.Thread(target=serverThread,args=(self,)).start()
+</script>
 
-    # Message received from client
-    def on_message(self,message):
-        # Acquire the lock
-        self.connLock.acquire()
-
-        # If we've closed the connection, quit
-        if self.closedIndicator.isClosed():
-            return
-        
-        # Send message to the server
-        try:
-            self.serverConn.sendall(message)
-        except:
-            # In case of error just quit the connection
-            self.closeConn()
-        
-        # Release the lock
-        self.connLock.release()
-        
-    def closeConn(self):
-        self.closedIndicator.close()
-        self.serverConn.close()
-        self.close()
-
-application = web.Application([
-        (r"/(.*)", connectionHandler),
-        ])
-
-# Listen for websocket connections
-if __name__ == "__main__":
-    application.listen(8888)
-    ioloop.IOLoop.instance().start()
+</body>
+</html>
