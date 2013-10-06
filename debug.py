@@ -1,7 +1,7 @@
 from node import node
 from Tree import *
 
-addNode("Root", 'First node' , set(["root", "first"]))
+addNode("Root", 'Root' , set(["root", "first"]))
 print "ROOT ADDED"
 
 for i in Tree.values():
@@ -49,7 +49,7 @@ testcontent = 'Calculus is the mathematical study of change, in the same way tha
 
 for i in Tree.values():
   i.editContent(testcontent)
-  i.generateSuggestedKeywords()
-  print i.getSuggestedKeywords()
+  i.setKeywords()
+  print i.getKeywords()
 
 print "Finished"

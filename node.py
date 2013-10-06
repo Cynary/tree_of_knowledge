@@ -18,7 +18,7 @@ class node:
             self.addChild(child)
 
         self.keywords = keywords
-        self.suggestedkeywords = set([])
+	self.setKeywords()
         #self.writeFile()
 
        
@@ -56,30 +56,27 @@ class node:
     def getContent(self):
         return self.content
 
-    #Keywords are for human-set keywords, suggestedkeywords are automatically generated
     def getKeywords(self):
         return self.keywords
 
-    def setKeywords(self, newkeywords):
-        self.keywords = newkeywords
-        #self.writeFile()
-      
-    def getSuggestedKeywords(self):
-	return self.suggestedkeywords
-    
-    def generateSuggestedKeywords(self):
+    def setKeywords(self):
         alchemyapi = AlchemyAPI()
-        self.suggestedkeywords = set([])
-        response = alchemyapi.concepts('text',self.content, { 'sentiment':1 })
+        response = alchemyapi.keywords('text',self.content, { 'sentiment':1 })
 	if response['status'] == 'OK':
-		for keyword in response['concepts']:
-		    self.suggestedkeywords.add(keyword['text'].encode('ascii','ignore'))
+		for keyword in response['keywords']:
+		    self.keywords.add(keyword['text'].encode('ascii','ignore'))
 	else:
 		print('Error in concept tagging call: ', response['statusInfo'])
-		self.suggestedkeywords = set(["Automatic keyword generation failed"])
+		self.keywords = set(["Automatic keyword generation failed"])
+	response = alchemyapi.concepts('text',self.content, { 'sentiment':1 })
+	if response['status'] == 'OK':
+		for keyword in response['concepts']:
+		    self.keywords.add(keyword['text'].encode('ascii','ignore'))
+	else:
+		print('Error in concept tagging call: ', response['statusInfo'])
+		self.keywords = set(["Automatic keyword generation failed"])
 	#self.writeFile()
-        pass
-
+      
     #def writeFile(self):
         #f = open('web/topics/' + self.name + '.html', 'w')
         #f.write("<html><head><title>Tree of Knowledge: " + self.name.title() + "</title></head><body><h1>" + self.name.title() + "</h1><br><br>" + self.content + "</body></html>")
@@ -87,6 +84,7 @@ class node:
 
     def editContent(self, newContent):
         self.content = newContent
+        self.setKeywords()
 	#self.writeFile()
 
     def removeParent(self, oldParent):

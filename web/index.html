@@ -6,9 +6,7 @@
 	<link href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	<script src="js/jquery-1.9.1.js"></script>
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>
-	<script>
-	
-	</script>
+
 
 	<script language="javascript" type="text/javascript" src="jquery.min.js"></script>
 	<script language="javascript" type="text/javascript" src="arbor.js"></script>
@@ -59,90 +57,16 @@
 </head>
 <body>
 
-
-
 <div id="tree">
 <canvas id="viewport" width="800" height="600"></canvas>
-<script src="/ckeditor/ckeditor.js"></script>
-<script language ="javascript" type="text/javascript">
-	var sys = arbor.ParticleSystem(1000, 400,1); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
-	sys.parameters({gravity:true});
-	sys.renderer = Renderer("#viewport");
-	var animals = sys.addNode('Animals',{'color':'red','shape':'dot','label':'Animals'});
-	var dog = sys.addNode('Dog', {'color':'blue', 'shape':'dot', 'label':'cat'});
-	var cat = sys.addNode('Cat', {'color':'blue', 'shape':'dot', 'label':'dog'});
-</script>
-
+<script src = "graphmanager.js"></script>
 </div> 
 
 <div id="content">
 <textarea name="editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+<script src="/ckeditor/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace( 'editor' );
-</script>
-</div>
-
-
-<script type="text/javascript">
-var DocWidth = document.body.clientWidth;
-	function setDivWidth(DocWidth){
-		var Tree = document.getElementById('viewport');
-		Tree.style.width=DocWidth/3 + "px";
-		Tree.style.borderColor= "blue";
-		Tree.style.borderStyle= "solid"
-		Tree.style.height = "500px"
-		var Content = document.getElementById('content');
-		Content.style.width=DocWidth*0.6 + "px"; 
-		Content.style.borderStyle="solid";
-		Content.style.borderColor="red";
-		Content.style.height = "500px"; 
-		var Content = document.getElementById('content');
-		Content.style.width=DocWidth*2/3 + "px"; 
-		Content.style.borderStyle="solid";
-		Content.style.borderColor="red";
-		Content.style.height = document.body.clientHeight; 
-		
-	}
-	setDivWidth(DocWidth);
-
-var Nodes = {}
-var Edges = {}
-
-function AddNode(name, cont, ID)
-{
-return Nodes[ID] = sys.addNode(name, {'color':'black', 'shape':'box', 'label': name, 'content':cont});
-}
-
-function AddEdge(parentID, childID, ID)
-{
-return Edges[ID] = sys.addEdge(Nodes[parentID], Nodes[childID], {'color':'black', 'directed':true});
-}
-
-function deleteEdge(parentID, childID)
-{
-A = sys.getEdges(Nodes[parentID], Nodes[childID]);
-sys.pruneEdge(A[0]);
-}
-
-
-function deleteNode(nodeID){
-sys.pruneNode(Nodes[nodeID]);
-}
-
-	var sys = arbor.ParticleSystem(100, 100,1,1,60); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
-	sys.parameters({gravity:false});
-	sys.renderer = Renderer("#viewport");
-	
-	AddNode( 'Tree of Knowledge', 'BIscoito', 0);
-	AddNode( 'Math', 'Ananas', 1);
-AddNode('Philosophy', 'hotel',2);
-	AddEdge(0,1,0);
-AddEdge(0,2,1);
-AddEdge(1,2,2);
-deleteEdge(1,2);
-AddNode('Calculus', 'jarros', 3);
-AddEdge(1,3);
-Nodes[1].data.visible = false
+   CKEDITOR.replace( 'editor' );
 </script>
 
 
