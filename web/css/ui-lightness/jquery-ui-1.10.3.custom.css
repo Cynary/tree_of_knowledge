@@ -1298,17 +1298,16 @@ li {display:inline;}
 
 #add_button {
 	float: right;
-	
-
+}
+#add_node {
+	float: right;
+}
+#delete_edge {
+	float: right;
 }
 
-
-
-
-
-
-
-
-
+#add_edge {
+	float: right;
+}
 
 
