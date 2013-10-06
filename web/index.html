@@ -11,6 +11,7 @@
 	<script language="javascript" type="text/javascript" src="graphics.js"></script>
 	<script language="javascript" type="text/javascript" src="renderer.js"></script>
 	<script language="javascript" type="text/javascript" src="functionality.js"></script>
+	<script src="/ckeditor/ckeditor.js"></script>
 </head>
 <body>
 
@@ -19,7 +20,7 @@
 <script src = "graphmanager.js"></script>
 </div> 
 <div id="editor_block" style="visibility:hidden;">
-<textarea name="editor" id="text_editor" >&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+<textarea name="editor" id="text_editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
 <script>
     CKEDITOR.replace( 'editor' );
 </script>
@@ -28,7 +29,7 @@
 <div id="content_block" style="visibility:hidden;">
 </div>
 
-<script type="text/javascript">
+<script>
 
 var DocWidth = document.body.clientWidth;
 var DocHeight = document.body.clientHeight;
@@ -43,6 +44,7 @@ function Display(content) {
 		editor_block.style.width="0px";
 		editor_block.style.height="0px";
 		editor_block.style.borderStyle="none";
+		editor_block.style.display = "none";
 		var content_block = document.getElementById('content_block');
 		content_block.style.visibility="visible";
 		content_block.style.width=DocWidth*0.6 +"px";
@@ -50,6 +52,8 @@ function Display(content) {
 		//content_block.style.borderColor="red";
 		content_block.style.backgroundColor="FFD555";
 		content_block.style.height = "1000px"; 
+		var Editor = document.getElementById('text_editor');
+		Editor.style.display= "none";
 	}
 	else {
 		//display text editor
@@ -60,13 +64,14 @@ function Display(content) {
 		var editor_block= document.getElementById('editor_block');
 		editor_block.style.visibility="visible";
 		editor_block.style.width=DocWidth*0.6 + "px"; 
-		editor_block.style.borderStyle="solid";
+		//editor_block.style.borderStyle="solid";
 		var Editor = document.getElementById('text_editor');
+		//Editor.style.display = "inline";
 		editor_block.style.height = Editor.height; 
 	}
 }
 var kk = true;
-Display(kk);
+//Display(kk);
 
 
 
@@ -87,8 +92,8 @@ Display(kk);
 	setDivWidth(DocWidth);
 	*/
 
-var Nodes = {}
-var Edges = {}
+var Nodes = {};
+var Edges = {};
 
 function AddNode(name, cont, ID)
 {
@@ -124,12 +129,8 @@ function deleteNode(nodeID){
 	deleteEdge(1,2);
 	AddNode('Calculus', 'jarros', 3);
 	AddEdge(1,3);
-	Nodes[1].data.visible = false
-<div id="content">
-<textarea name="editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
-<script src="/ckeditor/ckeditor.js"></script>
-<script>
-   CKEDITOR.replace( 'editor' );
+	Nodes[1].data.visible = false;
+
 </script>
 
 </body>
