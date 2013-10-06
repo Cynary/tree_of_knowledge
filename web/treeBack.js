@@ -54,7 +54,6 @@ function Graph(port, host) {
     }
 
     this.editContent = function(nodeID, newContent) {
-	console.log("hello");
 	var message = {
 	    'command':'editContent',
 	    'args':[nodeID, newContent]
