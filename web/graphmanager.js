@@ -19,7 +19,10 @@ function setDivWidth(DocWidth){
     
 }
 setDivWidth(DocWidth);*/
+
 var Focused = -1;
+
+var Editing = false;
 
 var Nodes = {}
 var Edges = {}
@@ -235,7 +238,8 @@ $("#viewport").click(function(e){
     }
     
     else{ Focused = -1;}
-    
 
+    
+    
     return false;
 });
