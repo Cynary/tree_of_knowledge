@@ -39,6 +39,22 @@
 
 <div id="tree">
 <canvas id="viewport" width="900" height="400"></canvas>
+<div id="edit">
+	<input type="submit" id="edit_button" value="Edit">
+	<script>
+		Add = document.getElementById('add_button');
+		Add.onclick = function(){
+			//display text editor
+			var Tree = document.getElementById('viewport');
+			Tree.style.width=DocWidth*0.45 + 'px';
+			var editor_block= document.getElementById('add_block');
+			editor_block.style.visibility="visible";
+			editor_block.style.width=DocWidth*0.45 + "px"; 
+			var editor = document.getElementById('text_editor');
+			editor_block.style.height = Editor.height; 
+		}
+	</script>
+</div>
 <script src = "graphmanager.js"></script>
 </div> 
 <div id="editor_block" style="visibility:hidden;">
