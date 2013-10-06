@@ -70,12 +70,12 @@ class node:
     def generateSuggestedKeywords(self):
         alchemyapi = AlchemyAPI()
         self.suggestedkeywords = set([])
-        response = alchemyapi.keywords('text',self.content, { 'sentiment':1 })
+        response = alchemyapi.concepts('text',self.content, { 'sentiment':1 })
 	if response['status'] == 'OK':
-		for keyword in response['keywords']:
+		for keyword in response['concepts']:
 		    self.suggestedkeywords.add(keyword['text'].encode('ascii','ignore'))
 	else:
-		print('Error in keyword extaction call: ', response['statusInfo'])
+		print('Error in concept tagging call: ', response['statusInfo'])
 		self.suggestedkeywords = set(["Automatic keyword generation failed"])
 	self.writeFile()
         pass
