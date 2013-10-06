@@ -6,54 +6,12 @@
 	<link href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	<script src="js/jquery-1.9.1.js"></script>
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>
-
-
 	<script language="javascript" type="text/javascript" src="jquery.min.js"></script>
 	<script language="javascript" type="text/javascript" src="arbor.js"></script>
 	<script language="javascript" type="text/javascript" src="graphics.js"></script>
 	<script language="javascript" type="text/javascript" src="renderer.js"></script>
 	<script language="javascript" type="text/javascript" src="functionality.js"></script>
-	
-	<style>
-	body{
-		font: 62.5% "Trebuchet MS", sans-serif;
-		margin: 50px;
-	}
-	.demoHeaders {
-		margin-top: 2em;
-	}
-	#dialog-link {
-		padding: .4em 1em .4em 20px;
-		text-decoration: none;
-		position: relative;
-	}
-	#dialog-link span.ui-icon {
-		margin: 0 5px 0 0;
-		position: absolute;
-		left: .2em;
-		top: 50%;
-		margin-top: -8px;
-	}
-	#icons {
-		margin: 0;
-		padding: 0;
-	}
-	#icons li {
-		margin: 2px;
-		position: relative;
-		padding: 4px 0;
-		cursor: pointer;
-		float: left;
-		list-style: none;
-	}
-	#icons span.ui-icon {
-		float: left;
-		margin: 0 4px;
-	}
-	.fakewindowcontain .ui-widget-overlay {
-		position: absolute;
-	}
-	</style>
+	<script src="/ckeditor/ckeditor.js"></script>
 </head>
 <body>
 
@@ -61,15 +19,81 @@
 <canvas id="viewport" width="800" height="600"></canvas>
 <script src = "graphmanager.js"></script>
 </div> 
-
-<div id="content">
-<textarea name="editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
-<script src="/ckeditor/ckeditor.js"></script>
+<div id="editor_block" style="visibility:hidden;">
+<textarea name="editor" id="text_editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
 <script>
-   //CKEDITOR.replace( 'editor' );
+
+    CKEDITOR.replace( 'editor' );
 </script>
+</div>
+
+<div id="content_block" style="visibility:hidden;">
+</div>
+
+<script>
+
+var DocWidth = document.body.clientWidth;
+var DocHeight = document.body.clientHeight;
+function Display(content) {
+	if(content==true){
+		//display content
+		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth*0.3 + "px";
+		//Tree.style.borderColor= "blue";
+		//Tree.style.borderStyle= "solid"
+		var editor_block = document.getElementById('editor_block');
+		editor_block.style.width="0px";
+		editor_block.style.height="0px";
+		editor_block.style.borderStyle="none";
+		editor_block.style.display = "none";
+		var content_block = document.getElementById('content_block');
+		content_block.style.visibility="visible";
+		content_block.style.width=DocWidth*0.6 +"px";
+		//content_block.style.borderStyle="solid";
+		//content_block.style.borderColor="red";
+		content_block.style.backgroundColor="FFD555";
+		content_block.style.height = "1000px"; 
+		var Editor = document.getElementById('text_editor');
+		Editor.style.display= "none";
+	}
+	else {
+		//display text editor
+		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth*0.3 + "px";
+		//Tree.style.borderColor= "blue";
+		//Tree.style.borderStyle= "solid"
+		var editor_block= document.getElementById('editor_block');
+		editor_block.style.visibility="visible";
+		editor_block.style.width=DocWidth*0.6 + "px"; 
+		//editor_block.style.borderStyle="solid";
+		var Editor = document.getElementById('text_editor');
+		//Editor.style.display = "inline";
+		editor_block.style.height = Editor.height; 
+	}
+}
+var kk = true;
+//Display(kk);
 
 
+
+	/*
+	function setDivWidth(DocWidth){
+		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth*0.3 + "px";
+		Tree.style.borderColor= "blue";
+		Tree.style.borderStyle= "solid"
+		Tree.style.height = "500px"
+		var Content = document.getElementById('editor_block');
+		Content.style.width=DocWidth*0.6 + "px"; 
+		Content.style.borderStyle="solid";
+		//Content.style.borderColor="red";
+		var Editor = document.getElementById('text_editor');
+		Content.style.height = Editor.height; 
+	}
+	setDivWidth(DocWidth);
+	*/
+</script>
+<script src = "graphmanager.js"></script>
 
 </body>
 </html>
