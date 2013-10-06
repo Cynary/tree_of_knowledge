@@ -14,7 +14,11 @@ function Graph(port, host) {
     }
 
     function addNode(nodeName, content) {
-	// send addNode message
+	var message = {
+	    'command':'addNode',
+	    'args':{nodeName, content}
+	};
+	this.ws.send(JSON.stringify(message));
     }
 
     function deleteNode(nodeID) {
@@ -31,6 +35,10 @@ function Graph(port, host) {
 
     function editContent(nodeID, newContent) {
 	// send editContent message
+    }
+
+    function searchNode(keywords) {
+	// send searchMessage
     }
 }
 

@@ -107,6 +107,7 @@
 		);
 	});
 	*/
+	
 	</script>
 
 	<script language="javascript" type="text/javascript" src="jquery.min.js"></script>
@@ -159,7 +160,7 @@
 
 
 
-
+<div id="tree">
 <canvas id="viewport" width="800" height="600"></canvas>
 <script language ="javascript" type="text/javascript">
 	var sys = arbor.ParticleSystem(100, 100,1,1,60); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
@@ -172,6 +173,12 @@
 	var edg = sys.addEdge(root, cat)
 
 </script>
+
+</div> 
+
+
+<div id="content">
+</div>
 
 </body>
 </html>
