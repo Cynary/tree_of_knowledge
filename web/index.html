@@ -16,7 +16,8 @@
 </head>
 <body>
 
-<div id="search">
+<div id="top_bar">
+
 	<input type="text" id="query">
 	<input type="submit" id ='submit'>
 	<script>
@@ -27,6 +28,13 @@
 		var Sub = document.getElementById('submit');
 		Sub.onclick= query_string();
 	</script>
+
+	<ul id="menu">
+		<li><a href="#">Contact</a></li>
+		<li><a href="#">Docs</a></li>
+		<li><a href="#">About</a></li>
+		<li><a href="#">Home</a></li>
+	</ul>
 </div>
 
 <div id="tree">
@@ -68,6 +76,7 @@ function Display(content) {
 	if(content==0){
 		//display content
 		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth*0.45 + "px";
 		Tree.style.width=DocWidth*0.4 + "px";
 		Tree.style.height=400+"px";
 		//Tree.style.borderColor= "blue";
@@ -78,6 +87,7 @@ function Display(content) {
 		editor_block.style.borderStyle="none";
 		editor_block.style.display = "none";
 		content_block.style.visibility="visible";
+		content_block.style.width=DocWidth*0.45 +"px";
 		content_block.style.width=DocWidth*0.4 +"px";
 		//content_block.style.borderStyle="solid";
 		//content_block.style.borderColor="red";
@@ -89,11 +99,13 @@ function Display(content) {
 	if(content==1) {
 		//display text editor
 		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth*0.45 + "px";
 		Tree.style.width=DocWidth*0.4 + "px";
 		//Tree.style.borderColor= "blue";
 		//Tree.style.borderStyle= "solid"
 		var editor_block= document.getElementById('editor_block');
 		editor_block.style.visibility="visible";
+		editor_block.style.width=DocWidth*0.45 + "px"; 
 		editor_block.style.width=DocWidth*0.4 + "px"; 
 		//editor_block.style.borderStyle="solid";
 		var editor = document.getElementById('text_editor');
@@ -107,6 +119,8 @@ function Display(content) {
 	
 	}
 }
+var kk = true;
+Display(true);
 
 Display(0);
 </script>
