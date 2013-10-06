@@ -24,9 +24,9 @@
 		var query_string;
 		var Sub = document.getElementById('submit');
 		Sub.onclick= function(){
-		query_string = document.getElementById('query').value;
-			console.log("Hello");
-			AddFocus(0);
+		    query_string = document.getElementById('query').value;
+		    document.getElementById('query').value = ''
+		    knowledgeTree.searchNode(query_string);
 		}
 	</script>
 
@@ -34,7 +34,7 @@
 		<li><a href="#">Contact</a></li>
 		<li><a href="#">Docs</a></li>
 		<li><a href="#">About</a></li>
-		<li><a href="#">Home</a></li>
+		<li><a href="#" onclick="Display(2)">Home</a></li>
 	</ul>
 </div>
 

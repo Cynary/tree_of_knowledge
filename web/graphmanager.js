@@ -20,7 +20,8 @@ function setDivWidth(DocWidth){
 }
 setDivWidth(DocWidth);*/
 
-var addingEdge = false
+var edgeOp = false
+var edgeFn = null;
 
 var Focused = -1;
 
@@ -209,6 +210,9 @@ Clear();
 //Focus(-1);
 AddFocus(0);
 
+parent = null
+child = null
+
 var lastTimestamp = 0;
 $("#viewport").click(function(e){
     var pos = $(this).offset(); 
@@ -222,7 +226,11 @@ $("#viewport").click(function(e){
 	    // dragged.node.tempMass = 10000
             dragged.node.fixed = true;
 
-	    if(addingEdge) {
+	    if(edgeOp) {
+		switch(edgeOp) {
+		    case 1: parent = dragged.node.data.ID; edgeOp = 2; break;
+		    case 2: child = dragged.node.data.iD; edgeOp = false; edgeFn(parent,child); break;
+		}
 	    }
 	    else {
 		Focused = dragged.node.data.ID;

@@ -10,13 +10,13 @@ function Graph(port, host) {
     this.ws.onmessage = function(evt) {
 	var message = JSON.parse(evt.data);
 	switch(message['command']) {
-	    case 'found': Docus(message['content'][0].ID); break;
+	    case 'found': Clear(); AddFocus(message['content'][0].ID); break;
 	    case 'addNode': AddNode(message['content'].name, message['content'].content, message['content'].ID); break;
 	    case 'deleteNode': RemoveNode(message['content'].node); break;
 	    case 'addEdge': AddEdge(message['content'].edge[0], message['content'].edge[1]); break;
 	    case 'deleteEdge': RemoveEdge(message['content'].edge[0], message['content'].edge[1]); break;
 	    case 'editContent': EditContent(message['content'].ID, message['content'].content); break;
-	    case 'tree': InitializeGraph(message.nodes, message.edges); Focus(-1); break;
+	    case 'tree': InitializeGraph(message.nodes, message.edges); DrawEverything(); break;
 	};
 	// Notifications? Maybe warning of attempted loop
     }
