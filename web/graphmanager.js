@@ -28,14 +28,47 @@ var NodesVisible = {}
 var EdgesVisible = {}
 var EdgeCount = 0;
 
+function InitializeGraph(nodes, edges){
+    for (i in nodes){
+	AddNode(i.name, i.content, i.ID);}
+    for (i in edges){
+	AddEdge(i.parentID, i.childID);}
+}
+
+function Focus(nodeID){
+    
+    for(i in NodesVisible){
+	UnShowNode(i);}
+
+    //SHOW everything if not focused
+    if(nodeID == -1){
+	for(i in Nodes){
+	    ShowNode(i);}
+	for(i in Edges){
+	    ShowEdge(i);}
+    }
+   
+    ShowNode(nodeID);
+    //console.log(Nodes[nodeID].edgesFrom);
+    for(i in Nodes[nodeID].edgesFrom){
+	ShowNode(Nodes[nodeID].edgesFrom[i][1]);
+	ShowEdge(i)
+    }
+    for(i in Nodes[nodeID].edgesTo){
+	ShowNode(Nodes[nodeID].edgesTo[i][1]);
+	ShowEdge(i);
+    }
+   
+}
+
 function AddNode(name, content, ID){
     Nodes[ID] = {'name': name, 'content': content, 'ID': ID , 'edgesTo': {}, 'edgesFrom': {}}
 }
 
 function AddEdge(parentID, childID){
     Edges[EdgeCount] = {'parentID': parentID, 'childID': childID, 'ID': EdgeCount}
-    Nodes[parentID].edgesTo[EdgeCount] = [EdgeCount, childID];
-    Nodes[childID].edgesFrom[EdgeCount] = [EdgeCount, parentID];
+    Nodes[parentID].edgesFrom[EdgeCount] = [EdgeCount, childID];
+    Nodes[childID].edgesTo[EdgeCount] = [EdgeCount, parentID];
     EdgeCount +=1;
 }
 
@@ -57,7 +90,6 @@ function RemoveEdge(parentID, childID){
 }
 
 
-
 function ShowNode(nodeID)
 {
     return NodesVisible[nodeID] = sys.addNode(Nodes[nodeID].name, {'color':'black', 'shape':'box', 'label': Nodes[nodeID].name, 'content':Nodes[nodeID].cont});
@@ -71,6 +103,7 @@ function ShowEdge(edgeID)
 function UnShowEdge(edgeID)
 {
     sys.pruneEdge(EdgesVisible[edgeID]);
+    delete EdgesVisible[edgeID];
 }
 
 function UnShowNode(nodeID){
@@ -86,16 +119,33 @@ AddNode( 'Tree of Knowledge', 'BIscoito', 0);
 AddNode( 'Math', 'Ananas', 1);
 AddNode('Philosophy', 'hotel',2);
 AddNode('Calculus', 'jarros', 3);
-ShowNode(0);
-ShowNode(1);
-ShowNode(2);
-ShowNode(3);
+AddNode('Economics', 'hotel',4);
+AddNode('Literature', 'jarros', 5);
+AddNode('Camões', 'hotel',6);
+AddNode('Camus', 'jarros', 7);
+AddNode('Linear Algebra', 'hotel',8);
+AddNode('Matrix', 'jarros', 9);
+
+for(var i=0; i<10; i++){
+    ShowNode(i);}
+
 AddEdge(0,1);
 AddEdge(0,2);
-AddEdge(1,2);
+AddEdge(0,4);
+AddEdge(0,5);
+
+AddEdge(1,8);
 AddEdge(1,3);
-ShowEdge(0);
-ShowEdge(1);
-ShowEdge(2);
-console.log(Edges);
-//ShowEdge(1);
+
+AddEdge(5,6);
+AddEdge(5,7);
+AddEdge(8,9);
+
+for(var i = 0; i<9; i++) ShowEdge(i);
+//UnShowEdge(2);
+//ShowEdge(2);
+//console.log(Edges);
+//UnShowEdge(1);
+//console.log(Nodes[0].edgesFrom);
+Focus(1);
+//Focus(-1);
