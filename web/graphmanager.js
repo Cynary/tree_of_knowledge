@@ -28,8 +28,8 @@ var NodesVisible = {}
 var EdgesVisible = {}
 var EdgeCount = 0;
 
-var FocusOrder = new Array();
-
+var FocusOrder = {};
+var FocusCounter = 0;
 function InitializeGraph(nodes, edges){
     for (i in nodes){
 	AddNode(i.name, i.content, i.ID);}
@@ -51,7 +51,8 @@ function DrawEverything(){   //SHOW everything if not focused
 }
 
 function AddFocus(nodeID){
-    FocusOrder.push(nodeID);
+    FocusOrder[FocusCounter] = nodeID;
+    FocusCounter+=1;
     if(!(nodeID in NodesVisible))
        ShowNode(nodeID);
     //console.log(Nodes[nodeID].edgesFrom);
@@ -69,16 +70,41 @@ function AddFocus(nodeID){
 }
 
 function RemoveFocus(nodeID){
-    do{
-	var cur = FocusOrder[FocusOrder.length - 1];
-	for(i in Nodes[cur].edgesTo){
-	    UnShowNode( Nodes[cur].edgesTo[i][1]);
+    
+    console.log(nodeID);
+    for(i in Nodes[nodeID].edgesFrom){
+	var index=false;
+	for(o in FocusOrder){
+	    if( FocusOrder[o] == Nodes[nodeID].edgesFrom[i][1]){
+		index = true;}
 	}
-	for(i in Nodes[cur].edgesFrom && !(i in FocusOrder)){
-	    UnShowNode( Nodes[cur].edgesFrom[i][1]);
+	if(index>-1){
+	    RemoveFocus(Nodes[nodeID].edgesFrom[i][1]);}
+    }
+    
+    for(i in Nodes[nodeID].edgesFrom){
+	UnShowNode(Nodes[nodeID].edgesFrom[i][1]);
+    }
+
+    for(i in Nodes[nodeID].edgesTo){
+	var ind=false;
+	for(o in FocusOrder){
+	    if( FocusOrder[o] == Nodes[nodeID].edgesTo[i][1]){
+		ind = true;}
 	}
-	FocusOrder.pop();
-    }while( FocusOrder[FocusOrder.length - 1] != nodeID)
+	if(ind==false){
+	    RemoveFocus(Nodes[nodeID].edgesTo[i][1]);}
+
+    }
+    
+    //ShowNode(nodeID);
+
+    var ox = 0;
+    for( i in FocusOrder){
+	if(FocusOrder[i] == nodeID)
+	    index = ox;
+    }
+    delete FocusOrder[ox];
 
 }
 
@@ -123,13 +149,17 @@ function ShowEdge(edgeID)
 
 function UnShowEdge(edgeID)
 {
-    sys.pruneEdge(EdgesVisible[edgeID]);
-    delete EdgesVisible[edgeID];
+    if( edgeID in EdgesVisible){
+	sys.pruneEdge(EdgesVisible[edgeID]);
+	delete EdgesVisible[edgeID];
+    }
 }
 
 function UnShowNode(nodeID){
-    sys.pruneNode(NodesVisible[nodeID]);
-    delete NodesVisible[nodeID];
+    if(nodeID in NodesVisible){
+	sys.pruneNode(NodesVisible[nodeID]);
+	delete NodesVisible[nodeID];
+    }
 }
 
 
@@ -161,7 +191,6 @@ AddEdge(5,6);
 AddEdge(5,7);
 AddEdge(8,9);
 
-DrawEverything();
 //UnShowEdge(2);
 //ShowEdge(2);
 //console.log(Edges);
@@ -171,19 +200,35 @@ Clear();
 //Focus(-1);
 AddFocus(0);
 
-
-$("#viewport").mousedown(function(e){
-    var pos = $(this).offset();
+var lastTimestamp = 0;
+$("#viewport").click(function(e){
+    var pos = $(this).offset(); 
     var p = {x:e.pageX-pos.left, y:e.pageY-pos.top}
     selected = nearest = dragged = sys.nearest(p);
+    console.log(e);
+    console.log(FocusOrder);
 
-    if (selected.node !== null && nearest.distance < 20){
+    if (selected.node !== null && nearest.distance < 20 && e.timeStamp - lastTimestamp > 10 ){
+	lastTimestamp = e.timeStamp;
         // dragged.node.tempMass = 10000
         dragged.node.fixed = true;
-	if( dragged.node.data.ID in FocusOrder)
+	
+	console.log(dragged.node.data.ID);
+	var belongs = false;
+	for(i in FocusOrder){
+	    if( FocusOrder[i] == dragged.node.data.ID)
+		belongs = true;
+	}
+	if( belongs == true && ( !(dragged.node.data.ID == 0))){
 	    RemoveFocus(dragged.node.data.ID);
-	else
+	}
+	else if( !(dragged.node.data.ID == 0)) {
+	    console.log(dragged.node.data.ID);
 	    AddFocus(dragged.node.data.ID);
+	}
+	
     }
+    e.stopPropagation();
+    e.preventDefault();
     return false;
 });
