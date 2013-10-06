@@ -221,12 +221,12 @@ $("#viewport").click(function(e){
 	    // dragged.node.tempMass = 10000
             dragged.node.fixed = true;
 	    Focused = dragged.node.data.ID;
-	    Display(2);
+	    Display(0);
 	    var inside = false;
 	    for(var i=0; i<FocusOrder.length; i++)
 		if( FocusOrder[i] == dragged.node.data.ID) inside = true;
 	    //console.log(inside);
-	    content_block.innerHTML = Nodes[Focused].content;
+	    content_block.innerHTML = ("<h1>" + Nodes[Focused].name + "</h1><h3>" + Nodes[Focused].content+"</h3>");
 	    if( inside &&  !(dragged.node.data.ID == 0)){
 		RemoveFocus(dragged.node.data.ID);
 	    }
