@@ -65,7 +65,6 @@ CKEDITOR.plugins.registered['save']=
 
 <div id="content_block" style="visibility:hidden;">
 </div>
-
 <script>
 
 
@@ -112,15 +111,81 @@ function Display(content) {
 	}
 
 }
-
-var kk = true;
 //Display(true);
 
 
 Display(0);
 
-
 </script>
+
+<div id="top_bar">
+
+	<input type="text" id="query">
+	<input type="submit" id ='submit'>
+	<script>
+		var query_string;
+		var Sub = document.getElementById('submit');
+		Sub.onclick= function(){
+			query_string = document.getElementById('query').value;
+		}
+	</script>
+
+	<ul id="menu">
+		<li><a href="#">Contact</a></li>
+		<li><a href="#">Docs</a></li>
+		<li><a href="#">About</a></li>
+		<li><a href="#">Home</a></li>
+	</ul>
+</div>
+
+<div id="tree">
+<canvas id="viewport" width="800" height="400"></canvas>
+<div id="add_button">
+	<input type="submit" value="Edit">
+	<script>
+	Add = document.getElementById('add_button');
+	Add.onclick = function(){
+		//display text editor
+		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth*0.45 + "px";
+		//Tree.style.borderColor= "blue";
+		//Tree.style.borderStyle= "solid"
+		var editor_block= document.getElementById('editor_block');
+		editor_block.style.visibility="visible";
+		editor_block.style.width=DocWidth*0.45 + "px"; 
+		//editor_block.style.borderStyle="solid";
+		var editor = document.getElementById('text_editor');
+		//Editor.style.display = "inline";
+		editor_block.style.height = Editor.height; 
+	}
+	</script>
+</div>
+<script src = "graphmanager.js"></script>
+</div> 
+<div id="editor_block" style="visibility:hidden;">
+<textarea name="editor" id="text_editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+<script>
+CKEDITOR.replace( 'editor' );
+CKEDITOR.plugins.registered['save']=
+      {
+           init : function( editor )
+           {
+              var command = editor.addCommand( 'save', 
+                 {
+                    modes : { wysiwyg:1, source:1 },
+                    exec : function( editor ) {
+                       knowledgeTree.editContent($("#text_editor").val())
+                    }
+                 }
+              );
+              editor.ui.addButton( 'Save',{label : 'Magic Save',command : 'save'});
+           }
+        }
+</script>
+</div>
+
+<div id="content_block" style="visibility:hidden;">
+</div>
 
 </body>
 </html>
