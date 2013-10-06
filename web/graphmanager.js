@@ -28,6 +28,8 @@ var NodesVisible = {}
 var EdgesVisible = {}
 var EdgeCount = 0;
 
+var FocusOrder = new Array();
+
 function InitializeGraph(nodes, edges){
     for (i in nodes){
 	AddNode(i.name, i.content, i.ID);}
@@ -35,31 +37,49 @@ function InitializeGraph(nodes, edges){
 	AddEdge(i.parentID, i.childID);}
 }
 
-function Focus(nodeID){   
+function Clear(nodeID){   
     for(i in NodesVisible){
 	UnShowNode(i);}
+}
+ 
 
-    //SHOW everything if not focused
-    if(nodeID == -1){
-	for(i in Nodes){
-	    ShowNode(i);}
-	for(i in Edges){
-	    ShowEdge(i);}
-    }
-    ShowNode(nodeID);
-    //console.log(Nodes[nodeID].edgesFrom);
-    for(i in Nodes[nodeID].edgesFrom){
-	ShowNode(Nodes[nodeID].edgesFrom[i][1]);
-	ShowEdge(i)
-    }
-    for(i in Nodes[nodeID].edgesTo){
-	ShowNode(Nodes[nodeID].edgesTo[i][1]);
-	ShowEdge(i);
-    }
+function DrawEverything(){   //SHOW everything if not focused
+    for(i in Nodes){
+	ShowNode(i);}
+    for(i in Edges){
+	ShowEdge(i);}
 }
 
 function AddFocus(nodeID){
-console.log(nodeID);
+    FocusOrder.push(nodeID);
+    if(!(nodeID in NodesVisible))
+       ShowNode(nodeID);
+    //console.log(Nodes[nodeID].edgesFrom);
+    for(i in Nodes[nodeID].edgesFrom){
+	if( !(Nodes[nodeID].edgesFrom[i][1] in NodesVisible))
+	    ShowNode(Nodes[nodeID].edgesFrom[i][1]);
+	ShowEdge(i);
+    }
+    for(i in Nodes[nodeID].edgesTo){
+	if( !(Nodes[nodeID].edgesTo[i][1] in NodesVisible))
+	    ShowNode(Nodes[nodeID].edgesTo[i][1]);
+	ShowEdge(i);
+	
+    }
+}
+
+function RemoveFocus(nodeID){
+    do{
+	var cur = FocusOrder[FocusOrder.length - 1];
+	for(i in Nodes[cur].edgesTo){
+	    UnShowNode( Nodes[cur].edgesTo[i][1]);
+	}
+	for(i in Nodes[cur].edgesFrom && !(i in FocusOrder)){
+	    UnShowNode( Nodes[cur].edgesFrom[i][1]);
+	}
+	FocusOrder.pop();
+    }while( FocusOrder[FocusOrder.length - 1] != nodeID)
+
 }
 
 function AddNode(name, content, ID){
@@ -109,6 +129,7 @@ function UnShowEdge(edgeID)
 
 function UnShowNode(nodeID){
     sys.pruneNode(NodesVisible[nodeID]);
+    delete NodesVisible[nodeID];
 }
 
 
@@ -127,8 +148,6 @@ AddNode('Camus', 'jarros', 7);
 AddNode('Linear Algebra', 'hotel',8);
 AddNode('Matrix', 'jarros', 9);
 
-for(var i=0; i<10; i++){
-    ShowNode(i);}
 
 AddEdge(0,1);
 AddEdge(0,2);
@@ -142,24 +161,29 @@ AddEdge(5,6);
 AddEdge(5,7);
 AddEdge(8,9);
 
-for(var i = 0; i<9; i++) ShowEdge(i);
+DrawEverything();
 //UnShowEdge(2);
 //ShowEdge(2);
 //console.log(Edges);
 //UnShowEdge(1);
 //console.log(Nodes[0].edgesFrom);
-Focus(1);
+Clear();
 //Focus(-1);
+AddFocus(0);
 
-$("#tree").mousedown(function(e){
+
+$("#viewport").mousedown(function(e){
     var pos = $(this).offset();
     var p = {x:e.pageX-pos.left, y:e.pageY-pos.top}
-    selected = nearest = dragged = particleSystem.nearest(p);
+    selected = nearest = dragged = sys.nearest(p);
 
-    if (selected.node !== null){
+    if (selected.node !== null && nearest.distance < 20){
         // dragged.node.tempMass = 10000
         dragged.node.fixed = true;
-	AddFocus(dragged.node.data.ID);
+	if( dragged.node.data.ID in FocusOrder)
+	    RemoveFocus(dragged.node.data.ID);
+	else
+	    AddFocus(dragged.node.data.ID);
     }
     return false;
 });
