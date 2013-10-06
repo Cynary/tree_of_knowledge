@@ -17,7 +17,7 @@ print "\nSearch for first root"
 print  searchNode( "first root")
 
 
-addNode("ASD", "Banan", set(["mock"]) , [Tree[(searchNode("child")['found'][0]['ID'])]])
+addNode("ASD", "Banan", set(["mock"]) , [Tree[(searchNode("child")['content'][0]['ID'])]])
 
 print Tree
 
@@ -37,7 +37,7 @@ for i in Tree.values():
     print i.name, i.keywords, i.parents, i.children
 
 print "\nTry to Add loop"
-addNode("Loop",  "Looping", set(["loop"]), [Tree[(searchNode('mock')['found'][0]['ID'])]], [Tree[(searchNode('root')['found'][0]['ID'])]])
+addNode("Loop",  "Looping", set(["loop"]), [Tree[(searchNode('mock')['content'][0]['ID'])]], [Tree[(searchNode('root')['content'][0]['ID'])]])
 
 print Tree
 

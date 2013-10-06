@@ -31,6 +31,8 @@ def serviceFunc(conn, addr):
             conn.close()
             return
 
+        print message
+
         # Do stuff with the message
         changes = {
             'addNode': addNode,
@@ -41,6 +43,10 @@ def serviceFunc(conn, addr):
             'search': search,
         }[message['command']](*message['args'])
 
+        print changes
+
         with USERSONLINELOCK:
             for c in USERSONLINE:
                 c.sendall(json.dumps(changes))
+
+serviceSkeleton.startService(PORT,serviceFunc,host=HOST)
