@@ -28,8 +28,10 @@ var NodesVisible = {}
 var EdgesVisible = {}
 var EdgeCount = 0;
 
-var FocusOrder = {};
+var FocusOrder = [];
 var FocusCounter = 0;
+    
+
 function InitializeGraph(nodes, edges){
     for (i in nodes){
 	AddNode(i.name, i.content, i.ID);}
@@ -51,8 +53,8 @@ function DrawEverything(){   //SHOW everything if not focused
 }
 
 function AddFocus(nodeID){
-    FocusOrder[FocusCounter] = nodeID;
-    FocusCounter+=1;
+    FocusOrder.push(nodeID);
+    console.log(FocusOrder);
     if(!(nodeID in NodesVisible))
        ShowNode(nodeID);
     //console.log(Nodes[nodeID].edgesFrom);
@@ -71,41 +73,38 @@ function AddFocus(nodeID){
 
 function RemoveFocus(nodeID){
     
-    console.log(nodeID);
+   // console.log(NodesVisible);
+    //console.log(Nodes[nodeID].edgesFrom);
+    //console.log(FocusOrder);
     for(i in Nodes[nodeID].edgesFrom){
-	var index=false;
-	for(o in FocusOrder){
-	    if( FocusOrder[o] == Nodes[nodeID].edgesFrom[i][1]){
-		index = true;}
+	var inside = false;
+	for(var o = 0; o<FocusOrder.length; o++) if(FocusOrder[o] == Nodes[nodeID].edgesFrom[i][1]) inside = true;
+	console.log(inside);
+	console.log(Nodes[nodeID].edgesFrom[i][1]);
+	if(inside){
+	    RemoveFocus(Nodes[nodeID].edgesFrom[i][1]);
 	}
-	if(index>-1){
-	    RemoveFocus(Nodes[nodeID].edgesFrom[i][1]);}
     }
-    
-    for(i in Nodes[nodeID].edgesFrom){
-	UnShowNode(Nodes[nodeID].edgesFrom[i][1]);
-    }
+
+//console.log(NodesVisible);
+   
+   
+    for( i in Nodes[nodeID].edgesFrom){
+	UnShowNode(Nodes[nodeID].edgesFrom[i][1]);}
+
+//console.log(NodesVisible);
+
 
     for(i in Nodes[nodeID].edgesTo){
-	var ind=false;
-	for(o in FocusOrder){
-	    if( FocusOrder[o] == Nodes[nodeID].edgesTo[i][1]){
-		ind = true;}
+	var inside = false;
+	for(var o = 0; o<FocusOrder.length; o++) if(FocusOrder[o] == Nodes[nodeID].edgesTo[i][1]) inside = true;
+	console.log(inside);
+	if( !(inside)){
+	    UnShowNode((Nodes[nodeID].edgesTo[i])[1]);
 	}
-	if(ind==false){
-	    RemoveFocus(Nodes[nodeID].edgesTo[i][1]);}
-
     }
-    
-    //ShowNode(nodeID);
-
-    var ox = 0;
-    for( i in FocusOrder){
-	if(FocusOrder[i] == nodeID)
-	    index = ox;
-    }
-    delete FocusOrder[ox];
-
+   // console.log(NodesVisible);
+    delete FocusOrder[FocusOrder.indexOf(nodeID)];
 }
 
 function AddNode(name, content, ID){
@@ -206,20 +205,20 @@ $("#viewport").click(function(e){
     var p = {x:e.pageX-pos.left, y:e.pageY-pos.top}
     selected = nearest = dragged = sys.nearest(p);
     console.log(e);
-    console.log(FocusOrder);
+   
 
-    if (selected.node !== null && nearest.distance < 20 && e.timeStamp - lastTimestamp > 10 ){
+    if (selected.node !== null && nearest.distance < 20 && e.timeStamp - lastTimestamp > 1 ){
 	lastTimestamp = e.timeStamp;
         // dragged.node.tempMass = 10000
         dragged.node.fixed = true;
-	
+	 console.log(FocusOrder);
 	console.log(dragged.node.data.ID);
-	var belongs = false;
-	for(i in FocusOrder){
-	    if( FocusOrder[i] == dragged.node.data.ID)
-		belongs = true;
-	}
-	if( belongs == true && ( !(dragged.node.data.ID == 0))){
+	var inside = false;
+	for(var i=0; i<FocusOrder.length; i++)
+	    if( FocusOrder[i] == dragged.node.data.ID) inside = true;
+	console.log(inside);
+
+	if( inside &&  !(dragged.node.data.ID == 0)){
 	    RemoveFocus(dragged.node.data.ID);
 	}
 	else if( !(dragged.node.data.ID == 0)) {
