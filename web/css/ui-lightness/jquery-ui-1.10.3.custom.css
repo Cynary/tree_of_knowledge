@@ -1243,6 +1243,7 @@ body .ui-tooltip {
 	border-color: black;
 	border-style: solid;
 	border-top: none;
+	padding: 12px;
 }
 
 body {
