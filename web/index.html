@@ -29,7 +29,7 @@
 </div>
 
 <div id="tree">
-<canvas id="viewport" width="800" height="600"></canvas>
+<canvas id="viewport" width=(DocWidth*0.3+"px") height="400"></canvas>
 <script src = "graphmanager.js"></script>
 </div> 
 <div id="editor_block" style="visibility:hidden;">
@@ -52,6 +52,7 @@ function Display(content) {
 		//display content
 		var Tree = document.getElementById('viewport');
 		Tree.style.width=DocWidth*0.3 + "px";
+		Tree.style.height=400+"px";
 		//Tree.style.borderColor= "blue";
 		//Tree.style.borderStyle= "solid"
 		var editor_block = document.getElementById('editor_block');
@@ -88,7 +89,6 @@ var kk = true;
 Display(false);
 
 </script>
-<script src = "graphmanager.js"></script>
 
 </body>
 </html>
