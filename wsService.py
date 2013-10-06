@@ -28,7 +28,7 @@ def serviceFunc(conn, addr):
 
     with treeLock:
         nodes = [nodeToDict(i) for i in Tree.values()]
-        edges = [[p.ID, c.ID] for c in p.getChildren() for p in Tree.values()]
+        edges = [[p.ID, c.ID] for p in Tree.values() for c in p.getChildren()]
         conn.sendall(json.dumps({'command': 'tree', 'nodes': nodes, 'edges': edges}))
 
     while True:

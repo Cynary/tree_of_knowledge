@@ -101,5 +101,5 @@ application = web.Application([
 
 # Listen for websocket connections
 if __name__ == "__main__":
-    application.listen(8888)
+    application.listen(8889)
     ioloop.IOLoop.instance().start()
