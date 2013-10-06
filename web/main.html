@@ -62,6 +62,7 @@
 
 <div id="tree">
 <canvas id="viewport" width="800" height="600"></canvas>
+<script src="/ckeditor/ckeditor.js"></script>
 <script language ="javascript" type="text/javascript">
 	var sys = arbor.ParticleSystem(1000, 400,1); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
 	sys.parameters({gravity:true});
@@ -73,8 +74,11 @@
 
 </div> 
 
-
 <div id="content">
+<textarea name="editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+<script>
+    CKEDITOR.replace( 'editor' );
+</script>
 </div>
 
 <script>
