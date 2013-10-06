@@ -4,8 +4,8 @@ import json
 
 class node:
     count = 0
-    def __init__(self, name, keywords = set([]), content = '', parents = [], children = []):
-
+    def __init__(self, name, keywords = set([]), content = ' ', parents = [], children = []):
+        self.content = content
         self.ID = self.count
         node.count = node.count+1
         self.name = name
@@ -16,9 +16,10 @@ class node:
             self.addParent(parent)
         for child in children:
             self.addChild(child)
-        self.content = content
+
         self.keywords = keywords
         self.suggestedkeywords = set([])
+        #self.writeFile()
 
        
     def __str__ (self):
@@ -42,6 +43,7 @@ class node:
             parent.addChild(self)
             if checkPath(parent):
                 self.removeParent(parent)
+	#self.writeFile()
 
     def addChild(self, child):
         if child.ID not in self.children:
@@ -49,6 +51,7 @@ class node:
             child.addParent(self)
             if checkPath(self):
                 self.removeChild(child)
+        #self.writeFile()
 
     def getContent(self):
         return self.content
@@ -59,6 +62,7 @@ class node:
 
     def setKeywords(self, newkeywords):
         self.keywords = newkeywords
+        #self.writeFile()
       
     def getSuggestedKeywords(self):
 	return self.suggestedkeywords
@@ -66,27 +70,36 @@ class node:
     def generateSuggestedKeywords(self):
         alchemyapi = AlchemyAPI()
         self.suggestedkeywords = set([])
-        response = alchemyapi.keywords('text',self.content, { 'sentiment':1 })
+        response = alchemyapi.concepts('text',self.content, { 'sentiment':1 })
 	if response['status'] == 'OK':
-		for keyword in response['keywords']:
+		for keyword in response['concepts']:
 		    self.suggestedkeywords.add(keyword['text'].encode('ascii','ignore'))
 	else:
-		print('Error in keyword extaction call: ', response['statusInfo'])
+		print('Error in concept tagging call: ', response['statusInfo'])
 		self.suggestedkeywords = set(["Automatic keyword generation failed"])
+	#self.writeFile()
         pass
+
+    #def writeFile(self):
+        #f = open('web/topics/' + self.name + '.html', 'w')
+        #f.write("<html><head><title>Tree of Knowledge: " + self.name.title() + "</title></head><body><h1>" + self.name.title() + "</h1><br><br>" + self.content + "</body></html>")
+        #f.close()
 
     def editContent(self, newContent):
         self.content = newContent
+	#self.writeFile()
 
     def removeParent(self, oldParent):
         if oldParent.ID in self.parents:
             del self.parents[oldParent.ID]
             oldParent.removeChild(self)
+        #self.writeFile()
 
     def removeChild(self, oldChild):
         if oldChild.ID in self.children:
             del self.children[oldChild.ID]
             oldChild.removeParent(self)
+       # self.writeFile()
 
     def __hash__(self):
         return self.ID
