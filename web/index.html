@@ -40,7 +40,7 @@
 <div id="tree">
 <canvas id="viewport" width="900" height="400"></canvas>
 <div id="edit">
-	<input type="submit" id="edit_button" value="Edit">
+	<input type="submit" id="edit_button" onclick="Display(1)" value="Edit">
 	<script>
 		Add = document.getElementById('add_button');
 		Add.onclick = function(){
@@ -57,7 +57,7 @@
 </div>
 <script src = "graphmanager.js"></script>
 </div> 
-<div id="editor_block" style="visibility:hidden;">
+<div id="editor_block" style="display:none;">
 <textarea name="editor" id="text_editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
 <script>
 CKEDITOR.replace( 'editor' );
@@ -79,7 +79,7 @@ CKEDITOR.plugins.registered['save']=
 </script>
 </div>
 
-<div id="content_block" style="visibility:hidden;">
+<div id="content_block" style="display:none;">
 </div>
 <script>
 
@@ -89,44 +89,39 @@ var DocHeight = document.body.clientHeight;
 var content_block = document.getElementById('content_block');
 var Tree = document.getElementById('viewport');
 var Editor = document.getElementById('text_editor');
+var editor_block= document.getElementById("editor_block");
 function Display(content) {
 	if(content==0){
 		//display content
 		Tree.width=DocWidth*0.45;
-		//Tree.style.width=DocWidth*0.45 + "px";
-		//Tree.style.width=DocWidth*0.4 + "px";
-		//Tree.style.height=400+"px";
-		//Tree.style.borderColor= "blue";
-		//Tree.style.borderStyle= "solid"
-		var editor_block = document.getElementById('editor_block');
-		editor_block.style.width="0px";
-		editor_block.style.height="0px";
-		editor_block.style.borderStyle="none";
+		Tree.style.width=DocWidth*0.45 + "px";
+
 		editor_block.style.display = "none";
-		content_block.style.visibility="visible";
+                Editor.style.display = "none"
+
+                content_block.style.display = "inline";
 		content_block.style.width=DocWidth*0.45 +"px";
-		//content_block.style.borderStyle="solid";
-		//content_block.style.borderColor="red";
 		content_block.style.backgroundColor="FFD555";
 		content_block.style.height = "1000px"; 
-		Editor.style.display= "none";
 	}
 	if(content==1) {
 		//display text editor
-		//var Tree = document.getElementById('viewport');
-		Tree.width=DocWidth*0.45;
-		//Tree.style.borderColor= "blue";
-		//Tree.style.borderStyle= "solid"
-		var editor_block= document.getElementById('editor_block');
-		editor_block.style.visibility="visible";
+                // Set default value to Nodes[Focused].content here
+                Tree.width=DocWidth*0.45;
+                Tree.style.width = (DocWidth*0.45) + "px"
 		editor_block.style.width=DocWidth*0.45 + "px"; 
-		//editor_block.style.borderStyle="solid";
-		var editor = document.getElementById('text_editor');
-		//Editor.style.display = "inline";
-		editor_block.style.height = Editor.height; 
+		Editor.style.display = "inline";
+                editor_block.style.display = "inline";
+		editor_block.style.height = Editor.height;
+                content_block.style.display = "none"
+                content_block.style.height = "0px";
 	}
 
         if(content==2) {
+                content_block.style.display = "none"
+                Editor.style.display = "none"
+                editor_block.style.display = "none"
+
                 Tree.width = 0.9*DocWidth;
                 Tree.style.width = 0.9*DocWidth+'px'
         }

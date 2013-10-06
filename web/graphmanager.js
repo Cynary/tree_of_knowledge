@@ -20,6 +20,8 @@ function setDivWidth(DocWidth){
 }
 setDivWidth(DocWidth);*/
 
+var addingEdge = false
+
 var Focused = -1;
 
 var Editing = false;
@@ -213,26 +215,30 @@ $("#viewport").click(function(e){
     var p = {x:e.pageX-pos.left, y:e.pageY-pos.top}
     selected = nearest = dragged = sys.nearest(p);
     console.log(e);
-   
 
     if (selected.node !== null && nearest.distance < 20){
 	if(e.timeStamp - lastTimestamp > 1 ){
 	    lastTimestamp = e.timeStamp;
 	    // dragged.node.tempMass = 10000
             dragged.node.fixed = true;
-	    Focused = dragged.node.data.ID;
-	    Display(0);
-	    var inside = false;
-	    for(var i=0; i<FocusOrder.length; i++)
-		if( FocusOrder[i] == dragged.node.data.ID) inside = true;
-	    //console.log(inside);
-	    content_block.innerHTML = ("<h1>" + Nodes[Focused].name + "</h1><h3>" + Nodes[Focused].content+"</h3>");
-	    if( inside &&  !(dragged.node.data.ID == 0)){
-		RemoveFocus(dragged.node.data.ID);
+
+	    if(addingEdge) {
 	    }
-	    else if( !(dragged.node.data.ID == 0)) {
-		//console.log(dragged.node.data.ID);
-		AddFocus(dragged.node.data.ID);
+	    else {
+		Focused = dragged.node.data.ID;
+		Display(0);
+		var inside = false;
+		for(var i=0; i<FocusOrder.length; i++)
+		    if( FocusOrder[i] == dragged.node.data.ID) inside = true;
+		//console.log(inside);
+		content_block.innerHTML = ("<h1>" + Nodes[Focused].name + "</h1><h3>" + Nodes[Focused].content+"</h3>");
+		if( inside &&  !(dragged.node.data.ID == 0)){
+		    RemoveFocus(dragged.node.data.ID);
+		}
+		else if( !(dragged.node.data.ID == 0)) {
+		    //console.log(dragged.node.data.ID);
+		    AddFocus(dragged.node.data.ID);
+		}
 	    }
 	}
     }
