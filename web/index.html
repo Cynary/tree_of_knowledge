@@ -14,22 +14,10 @@
 </head>
 <body>
 
-
-
 <div id="tree">
 <canvas id="viewport" width="800" height="600"></canvas>
-<script src="/ckeditor/ckeditor.js"></script>
-<script language ="javascript" type="text/javascript">
-	var sys = arbor.ParticleSystem(1000, 400,1); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
-	sys.parameters({gravity:true});
-	sys.renderer = Renderer("#viewport");
-	var animals = sys.addNode('Animals',{'color':'red','shape':'dot','label':'Animals'});
-	var dog = sys.addNode('Dog', {'color':'blue', 'shape':'dot', 'label':'cat'});
-	var cat = sys.addNode('Cat', {'color':'blue', 'shape':'dot', 'label':'dog'});
-</script>
-
+<script src = "graphmanager.js"></script>
 </div> 
-
 <div id="editor_block" style="visibility:hidden;">
 <textarea name="editor" id="text_editor" >&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
 <script>
@@ -43,6 +31,7 @@
 <script type="text/javascript">
 
 var DocWidth = document.body.clientWidth;
+var DocHeight = document.body.clientHeight;
 function Display(content) {
 	if(content==true){
 		//display content
@@ -60,7 +49,7 @@ function Display(content) {
 		//content_block.style.borderStyle="solid";
 		//content_block.style.borderColor="red";
 		content_block.style.backgroundColor="FFD555";
-		content_block.style.height = "500px"; 
+		content_block.style.height = "1000px"; 
 	}
 	else {
 		//display text editor
@@ -72,7 +61,6 @@ function Display(content) {
 		editor_block.style.visibility="visible";
 		editor_block.style.width=DocWidth*0.6 + "px"; 
 		editor_block.style.borderStyle="solid";
-
 		var Editor = document.getElementById('text_editor');
 		editor_block.style.height = Editor.height; 
 	}
@@ -137,6 +125,11 @@ function deleteNode(nodeID){
 	AddNode('Calculus', 'jarros', 3);
 	AddEdge(1,3);
 	Nodes[1].data.visible = false
+<div id="content">
+<textarea name="editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+   CKEDITOR.replace( 'editor' );
 </script>
 
 </body>
