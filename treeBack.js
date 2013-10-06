@@ -14,23 +14,50 @@ function Graph(port, host) {
     }
 
     function addNode(nodeName, content) {
-	// send addNode message
+	var message = {
+	    'command':'addNode',
+	    'args':{nodeName, content}
+	};
+	this.ws.send(JSON.stringify(message));
     }
 
     function deleteNode(nodeID) {
-	// send delete message
+	var message = {
+	    'command':'deleteNode',
+	    'args':{nodeID}
+	};
+	this.ws.send(JSON.stringify(message));
     }
     
     function addEdge(parentID, childID) {
-	// send addEdge message
+	var message = {
+	    'command':'addEdge',
+	    'args':{parentID, childID}
+	};
+	this.ws.send(JSON.stringify(message));
     }
 
     function deleteEdge(parentID, childID) {
-	// send deleteEdge message
+	/var message = {
+	    'command':'deleteEdge',
+	    'args':{parentID, childID}
+	};
+	this.ws.send(JSON.stringify(message));
     }
 
     function editContent(nodeID, newContent) {
-	// send editContent message
+	var message = {
+	    'command':'editContent',
+	    'args':{nodeID, newContent}
+	};
+	this.ws.send(JSON.stringify(message));    }
+
+    function searchNode(keywords) {
+	var message = {
+	    'command':'searchNode',
+	    'args':{keywords}
+	};
+	this.ws.send(JSON.stringify(message));
     }
 }
 
