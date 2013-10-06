@@ -9,23 +9,14 @@ function Graph(port, host) {
     }
     this.ws.onmessage = function(evt) {
 	var message = JSON.parse(evt.data);
-	// switch(message['command']) {
-	//     case 'found': focus(message['content'][0]['ID']); break;
-	//     case 'addNode': addNode(message['content'].name, message['content'].content, message['content'].ID); break;
-	//     case 'deleteNode': deleteNode(message['content'].node); break;
-	//     case 'addEdge': addEdge(message['content'].edge[0], message['content'].edge[1]); break;
-	//     case 'deleteEdge': deleteEdge(message['content'].edge[0], message['content'].edge[1]); break;
-	//     case 'editContent': editDescription(message['content'].ID, message['content'].content); break;
-	//     case 'tree': InitializeGraph(message.nodes, message.edges); break;
-	// };
 	switch(message['command']) {
-	    case 'found': console.log(message['content'][0]['ID']); break;
-	    case 'addNode': console.log(message['content'].name, message['content'].content, message['content'].ID); break;
-	    case 'deleteNode': console.log(message.node); break;
-	    case 'addEdge': console.log(message.edge[0], message.edge[1]); break;
-	    case 'deleteEdge': console.log(message.edge[0], message.edge[1]); break;
-	    case 'editContent': console.log(message['content'].ID, message['content'].content); break;
-	    case 'tree': console.log(message.nodes, message.edges); break;
+	    case 'found': Docus(message['content'][0].ID); break;
+	    case 'addNode': AddNode(message['content'].name, message['content'].content, message['content'].ID); break;
+	    case 'deleteNode': RemoveNode(message['content'].node); break;
+	    case 'addEdge': AddEdge(message['content'].edge[0], message['content'].edge[1]); break;
+	    case 'deleteEdge': RemoveEdge(message['content'].edge[0], message['content'].edge[1]); break;
+	    case 'editContent': break;//editDescription(message['content'].ID, message['content'].content); break;
+	    case 'tree': InitializeGraph(message.nodes, message.edges); Focus(-1); break;
 	};
 	// Notifications? Maybe warning of attempted loop
     }
