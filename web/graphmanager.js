@@ -218,6 +218,7 @@ $("#viewport").click(function(e){
 	    // dragged.node.tempMass = 10000
             dragged.node.fixed = true;
 	    Focused = dragged.node.data.ID;
+	    Display(2);
 	    var inside = false;
 	    for(var i=0; i<FocusOrder.length; i++)
 		if( FocusOrder[i] == dragged.node.data.ID) inside = true;
