@@ -58,8 +58,7 @@ class node:
         return self.keywords
 
     def setKeywords(self, newkeywords):
-	self.keywords = newkeywords
-	pass
+        self.keywords = newkeywords
       
     def getSuggestedKeywords(self):
 	return self.suggestedkeywords

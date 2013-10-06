@@ -6,6 +6,12 @@ def findNode(name = ""):
         if i.name == name:
             return i
 
+def nodeToDict(node):
+    return {
+        'ID': node.ID,
+        'name': node.name,
+        'content': node.content, }
+        
 def searchNode(keywords):
     keys = keywords.split(' ')
     matches = []  # list of matched node, (% matched, #matched, id)
@@ -15,11 +21,12 @@ def searchNode(keywords):
             matches.append([-float(len(matched))/len(i.keywords), -len(matched), i])
     
     matches.sort()
-    return [i[2] for i in matches]
-        
+    return {'found': [i[2].ID for i in matches]}
+
 def addNode( name, content = '', keywords = set([]),  parents = [], children = [] ):
     #print "Add node " + name
     Tree[node.count] = node( name, keywords, content, parents, children)
+    return {'add': node.ID, 'name': node.name}
 
 def deleteNode(nodeID):
     Tree[nodeID].deleteConnections()
