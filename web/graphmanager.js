@@ -237,8 +237,6 @@ $("#viewport").click(function(e){
 	}
     }
     
-
-    
     else{ Focused = -1;}
 
     return false;

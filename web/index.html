@@ -38,7 +38,7 @@
 </div>
 
 <div id="tree">
-<canvas id="viewport" width="800" height="400"></canvas>
+<canvas id="viewport" width="900" height="400"></canvas>
 <script src = "graphmanager.js"></script>
 </div> 
 <div id="editor_block" style="visibility:hidden;">
@@ -110,12 +110,7 @@ function Display(content) {
 		//Editor.style.display = "inline";
 		editor_block.style.height = Editor.height; 
 	}
-	if(content==2) {
-		//display neither
-		var Tree = document.getElementById('viewport');
-		Tree.style.width=DocWidth*0.9 + "px";
-	
-	}
+
 }
 
 var kk = true;
