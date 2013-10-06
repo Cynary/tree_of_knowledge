@@ -31,6 +31,7 @@ def addNode( name, content = '', keywords = set([]),  parents = [], children = [
     return {'command': 'addNode', 'content': nodeToDict(n)}
 
 def deleteNode(nodeID):
+    nodeID = int(nodeID)
     if nodeID in Tree:
         Tree[nodeID].deleteConnections()
         n = Tree[nodeID]
@@ -38,6 +39,8 @@ def deleteNode(nodeID):
         return {'command': 'deleteNode', 'node': n.ID}
 
 def addEdge(parID, childID):
+    parID = int(parID)
+    childID = int(childID)
     if parID in Tree and childID in Tree:
         Tree[parID].addChild(Tree[childID])
         return {'command': 'addEdge', 'edge': [parID,childID]}
@@ -45,11 +48,14 @@ def addEdge(parID, childID):
         print "Error - It is not on the Tree"
 
 def deleteEdge(parentID, childID):
+    parentID = int(parentID)
+    childID = int(childID)
     if childID in Tree[parentID].children:
         Tree[parentID].removeChild(Tree[childID])
         return {'command': 'deleteEdge', 'edge': [parentID, childID]}
 
 def editContent(nodeID, newContent):
+    nodeID = int(nodeID)
     if nodeID in Tree:
         Tree[nodeID].editContent(newContent)
         return {'command': 'editContent', 'content': nodeToDict(Tree[nodeID])}

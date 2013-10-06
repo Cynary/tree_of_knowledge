@@ -1,4 +1,4 @@
-var PORT = 5001
+var PORT = 5000
 var HOST = "18.182.6.123"
 
 function Graph(port, host) {
@@ -9,8 +9,9 @@ function Graph(port, host) {
     }
     this.ws.onmessage = function(evt) {
 	var message = JSON.parse(evt.data);
+	console.log(message)
 	switch(message['command']) {
-	    case 'found': Clear(); AddFocus(message['content'][0].ID); break;
+	    case 'found': Clear(); if(message['content'].length != 0) AddFocus(message['content'][0].ID); break;
 	    case 'addNode': AddNode(message['content'].name, message['content'].content, message['content'].ID); break;
 	    case 'deleteNode': RemoveNode(message['content'].node); break;
 	    case 'addEdge': AddEdge(message['content'].edge[0], message['content'].edge[1]); break;

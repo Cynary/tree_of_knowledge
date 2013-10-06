@@ -35,6 +35,7 @@ def serviceFunc(conn, addr):
         try:
             message = json.loads(conn.recv(1048576))
         except:
+            USERSONLINE.remove(conn)
             conn.close()
             return
 
@@ -53,8 +54,10 @@ def serviceFunc(conn, addr):
 
         print changes
 
-        with USERSONLINELOCK:
-            for c in USERSONLINE:
-                c.sendall(json.dumps(changes))
+        if changes is not None:
+            with USERSONLINELOCK:
+                print USERSONLINE
+                for c in USERSONLINE:
+                    c.sendall(json.dumps(changes))
 
 serviceSkeleton.startService(PORT,serviceFunc,host=HOST)

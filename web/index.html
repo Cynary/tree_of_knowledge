@@ -11,7 +11,6 @@
 	<script language="javascript" type="text/javascript" src="graphics.js"></script>
 	<script language="javascript" type="text/javascript" src="renderer.js"></script>
 	<script language="javascript" type="text/javascript" src="functionality.js"></script>
-	<script language="javascript" type="text/javascript" src="treeBack.js"></script>
 	<script src="/ckeditor/ckeditor.js"></script>
 </head>
 <body>
@@ -51,6 +50,19 @@
 			var node_name = prompt ("Please enter a name for the node!", "New Node!");
 		        knowledgeTree.addNode(node_name, "")
 		}
+		$("#add_edge").click(function(e) {
+		        edgeOp = 1;
+		        edgeFn = function(parID,cID) {
+                            knowledgeTree.addEdge(parID,cID);
+		        }
+		});
+		$("#delete_edge").click(function(e) {
+		        edgeOp = 1;
+		        edgeFn = function(parID,cID) {
+                            knowledgeTree.deleteEdge(parID,cID);
+		        }
+		});
+		
 	</script>
 </div>
 </div>
@@ -68,7 +80,7 @@ CKEDITOR.plugins.registered['save']=
                  {
                     modes : { wysiwyg:1, source:1 },
                     exec : function( editor ) {
-                       knowledgeTree.editContent(Focused, $("#text_editor").val())
+                       knowledgeTree.editContent(Focused, CKEDITOR.instances['text_editor'].getData())
                     }
                  }
               );
@@ -129,12 +141,14 @@ function Display(content) {
         sys.screenSize(Tree.width, 400)
 }
 var kk = true;
-Display(0);
+Display(2);
 
 </script>
 
 <div id="content_block" style="display:none;">
 </div>
+
+<script language="javascript" type="text/javascript" src="treeBack.js"></script>
 
 </body>
 </html>
