@@ -77,5 +77,24 @@
 <div id="content">
 </div>
 
+<script>
+var DocWidth = document.body.clientWidth;
+	function setDivWidth(DocWidth){
+		var Tree = document.getElementById('viewport');
+		Tree.style.width=DocWidth/3 + "px";
+		Tree.style.borderColor= "blue";
+		Tree.style.borderStyle= "solid"
+		Tree.style.height = "500px"
+		var Content = document.getElementById('content');
+		Content.style.width=DocWidth*0.6 + "px"; 
+		Content.style.borderStyle="solid";
+		Content.style.borderColor="red";
+		Content.style.height = "500px"; 
+		
+	}
+	setDivWidth(DocWidth);
+
+</script>
+
 </body>
 </html>
