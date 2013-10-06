@@ -223,7 +223,7 @@ $("#viewport").click(function(e){
 	    for(var i=0; i<FocusOrder.length; i++)
 		if( FocusOrder[i] == dragged.node.data.ID) inside = true;
 	    //console.log(inside);
-
+	    content_block.innerHTML = Nodes[Focused].content;
 	    if( inside &&  !(dragged.node.data.ID == 0)){
 		RemoveFocus(dragged.node.data.ID);
 	    }

@@ -15,7 +15,7 @@ function Graph(port, host) {
 	    case 'deleteNode': RemoveNode(message['content'].node); break;
 	    case 'addEdge': AddEdge(message['content'].edge[0], message['content'].edge[1]); break;
 	    case 'deleteEdge': RemoveEdge(message['content'].edge[0], message['content'].edge[1]); break;
-	    case 'editContent': break;//editDescription(message['content'].ID, message['content'].content); break;
+	    case 'editContent': EditContent(message['content'].ID, message['content'].content); break;
 	    case 'tree': InitializeGraph(message.nodes, message.edges); Focus(-1); break;
 	};
 	// Notifications? Maybe warning of attempted loop
@@ -58,7 +58,8 @@ function Graph(port, host) {
 	    'command':'editContent',
 	    'args':[nodeID, newContent]
 	};
-	this.ws.send(JSON.stringify(message));    }
+	this.ws.send(JSON.stringify(message));
+    }
 
     this.searchNode = function(keywords) {
 	var message = {

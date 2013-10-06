@@ -11,6 +11,7 @@
 	<script language="javascript" type="text/javascript" src="graphics.js"></script>
 	<script language="javascript" type="text/javascript" src="renderer.js"></script>
 	<script language="javascript" type="text/javascript" src="functionality.js"></script>
+	<script language="javascript" type="text/javascript" src="treeBack.js"></script>
 	<script src="/ckeditor/ckeditor.js"></script>
 </head>
 <body>
@@ -29,14 +30,28 @@
 </div>
 
 <div id="tree">
-<canvas id="viewport" width=(DocWidth*0.4+"px") height="400"></canvas>
+<canvas id="viewport" width="800" height="400"></canvas>
 <script src = "graphmanager.js"></script>
 </div> 
 <div id="editor_block" style="visibility:hidden;">
 <textarea name="editor" id="text_editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
 <script>
-
-    CKEDITOR.replace( 'editor' );
+CKEDITOR.replace( 'editor' );
+CKEDITOR.plugins.registered['save']=
+      {
+           init : function( editor )
+           {
+              var command = editor.addCommand( 'save', 
+                 {
+                    modes : { wysiwyg:1, source:1 },
+                    exec : function( editor ) {
+                       knowledgeTree.editContent($("#text_editor").val())
+                    }
+                 }
+              );
+              editor.ui.addButton( 'Save',{label : 'Magic Save',command : 'save'});
+           }
+        }
 </script>
 </div>
 
@@ -48,6 +63,7 @@
 
 var DocWidth = document.body.clientWidth;
 var DocHeight = document.body.clientHeight;
+var content_block = document.getElementById('content_block');
 function Display(content) {
 	if(content==0){
 		//display content
@@ -61,7 +77,6 @@ function Display(content) {
 		editor_block.style.height="0px";
 		editor_block.style.borderStyle="none";
 		editor_block.style.display = "none";
-		var content_block = document.getElementById('content_block');
 		content_block.style.visibility="visible";
 		content_block.style.width=DocWidth*0.4 +"px";
 		//content_block.style.borderStyle="solid";
@@ -81,7 +96,7 @@ function Display(content) {
 		editor_block.style.visibility="visible";
 		editor_block.style.width=DocWidth*0.4 + "px"; 
 		//editor_block.style.borderStyle="solid";
-		var Editor = document.getElementById('text_editor');
+		var editor = document.getElementById('text_editor');
 		//Editor.style.display = "inline";
 		editor_block.style.height = Editor.height; 
 	}
@@ -94,8 +109,6 @@ function Display(content) {
 }
 
 Display(0);
-
-
 </script>
 
 </body>
