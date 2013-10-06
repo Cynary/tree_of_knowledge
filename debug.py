@@ -17,18 +17,18 @@ print "\nSearch for first root"
 print  searchNode( "first root")
 
 
-addNode("ASD", "Banan", set(["mock"]) , [(searchNode("child")[0])])
+addNode("ASD", "Banan", set(["mock"]) , [Tree[(searchNode("child")['found'][0]['ID'])]])
 
 print Tree
 
 print "\nDelete second node"
-deleteNode(2)
+deleteNode(1)
 print Tree
 for i in Tree.values():
     print i.name, i.keywords, i.parents, i.children
 
 print "\nAdd connection 1,3"
-addEdge(1,3)
+addEdge(0,2)
 print "\nAdd connection 0,20"
 addEdge(0,20)
 
@@ -37,7 +37,7 @@ for i in Tree.values():
     print i.name, i.keywords, i.parents, i.children
 
 print "\nTry to Add loop"
-addNode("Loop",  "Looping", set(["loop"]), [(searchNode('mock')[0])], [(searchNode('root')[0])])
+addNode("Loop",  "Looping", set(["loop"]), [Tree[(searchNode('mock')['found'][0]['ID'])]], [Tree[(searchNode('root')['found'][0]['ID'])]])
 
 print Tree
 

@@ -10,7 +10,8 @@ def nodeToDict(node):
     return {
         'ID': node.ID,
         'name': node.name,
-        'content': node.content, }
+        'content': node.content,
+        };
         
 def searchNode(keywords):
     keys = keywords.split(' ')
@@ -21,16 +22,19 @@ def searchNode(keywords):
             matches.append([-float(len(matched))/len(i.keywords), -len(matched), i])
     
     matches.sort()
-    return {'found': [i[2].ID for i in matches]}
+    return {'found': [nodeToDict(i[2]) for i in matches]}
 
 def addNode( name, content = '', keywords = set([]),  parents = [], children = [] ):
     #print "Add node " + name
-    Tree[node.count] = node( name, keywords, content, parents, children)
-    return {'add': node.ID, 'name': node.name}
+    n = node( name, keywords, content, parents, children)
+    Tree[n.ID] = n
+    return {'addNode': None, 'node': n.ID}
 
 def deleteNode(nodeID):
     Tree[nodeID].deleteConnections()
+    n = Tree[nodeID]
     del Tree[nodeID]
+    return {'deleteNode': None, 'node': n.ID}
 
 def addEdge(parID, childID):
     if parID in Tree and childID in Tree:
