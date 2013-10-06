@@ -1,5 +1,5 @@
 var PORT = 5000
-var HOST = "18.189.90.120"
+var HOST = "18.239.5.231"
 
 function Graph(port, host) {
     try {
@@ -14,7 +14,8 @@ function Graph(port, host) {
 	    case 'found':
 	    if(message['content'].length != 0) {	
 		Clear();
-		console.log(Nodes[message['content'][0].ID])
+		console.log(Nodes[message['content'][0].ID]);
+		RemoveFocus(0);
 		AddFocus(parseInt(message['content'][0].ID));
 		Focused = parseInt(message['content'][0].ID);
 		content_block.innerHTML = ("<h1>" + Nodes[Focused].name + "</h1><h3>" + Nodes[Focused].content+"</h3>");
@@ -22,7 +23,7 @@ function Graph(port, host) {
 	    }
 	    break;
 	    case 'addNode': AddNode(message['content'].name, message['content'].content, message['content'].ID); AddFocus(message['content'].ID); ShowNode(message['content'].ID); break;
-	    case 'deleteNode': RemoveNode(message['content'].node); break;
+	    case 'deleteNode': RemoveNode(message.node); break;
 	    case 'addEdge': AddEdge(message.edge[0], message.edge[1]); ShowEdge(EdgeCount-1); break;
 	    case 'deleteEdge': RemoveEdge(message.edge[0], message.edge[1]); break;
 	    case 'editContent': EditContent(message['content'].ID, message['content'].content); break;

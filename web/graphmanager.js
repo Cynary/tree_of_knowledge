@@ -63,11 +63,9 @@ function EditContent(nodeID, newContent){
     }
 }
 
-function DrawEverything(){   //SHOW everything if not focused
+function DrawEverything(){   //SHOW everything if not focuses
     for(i in Nodes){
-	ShowNode(i);}
-    for(i in Edges){
-	ShowEdge(i);}
+	AddFocus(i);}
 }
 
 function AddFocus(nodeID){
@@ -122,7 +120,10 @@ function RemoveFocus(nodeID){
 	}
     }
    // console.log(NodesVisible);
-    delete FocusOrder[FocusOrder.indexOf(nodeID)];
+    var index = -1;
+    for (i in FocusOrder){
+	if(parseInt(FocusOrder[i]) == nodeID) index = i;}
+    delete FocusOrder[index];
 }
 
 function AddNode(name, content, ID){
@@ -240,6 +241,7 @@ $("#viewport").click(function(e){
 		}
 	    }
 	    else {
+		console.log(FocusOrder);
 		Focused = dragged.node.data.ID;
 		Display(0);
 		var inside = false;
@@ -247,10 +249,10 @@ $("#viewport").click(function(e){
 		    if( FocusOrder[i] == dragged.node.data.ID) inside = true;
 		//console.log(inside);
 		content_block.innerHTML = ("<h1>" + Nodes[Focused].name + "</h1><h3>" + Nodes[Focused].content+"</h3>");
-		if( inside &&  !(dragged.node.data.ID == 0)){
+		if( inside ){
 		    RemoveFocus(dragged.node.data.ID);
 		}
-		else if( !(dragged.node.data.ID == 0)) {
+		else {
 		    //console.log(dragged.node.data.ID);
 		    AddFocus(dragged.node.data.ID);
 		}
