@@ -1,5 +1,5 @@
-var PORT = 5000
-var HOST = "18.182.6.123"
+var PORT = 5001
+var HOST = "18.189.90.120"
 
 function Graph(port, host) {
     try {
@@ -11,11 +11,19 @@ function Graph(port, host) {
 	var message = JSON.parse(evt.data);
 	console.log(message)
 	switch(message['command']) {
-	    case 'found': Clear(); if(message['content'].length != 0) AddFocus(message['content'][0].ID); break;
-	    case 'addNode': AddNode(message['content'].name, message['content'].content, message['content'].ID); break;
+	    case 'found':
+	    Clear();
+	    if(message['content'].length != 0) {
+		AddFocus(message['content'][0].ID);
+		Display(0);
+		Focused = message['content'][0].ID;
+		content_block.innerHTML = ("<h1>" + Nodes[Focused].name + "</h1><h3>" + Nodes[Focused].content+"</h3>");
+	    }
+	    break;
+	    case 'addNode': AddNode(message['content'].name, message['content'].content, message['content'].ID); ShowNode(message['content'].ID); break;
 	    case 'deleteNode': RemoveNode(message['content'].node); break;
-	    case 'addEdge': AddEdge(message['content'].edge[0], message['content'].edge[1]); break;
-	    case 'deleteEdge': RemoveEdge(message['content'].edge[0], message['content'].edge[1]); break;
+	    case 'addEdge': AddEdge(message.edge[0], message.edge[1]); ShowEdge(EdgeCount-1); break;
+	    case 'deleteEdge': RemoveEdge(message.edge[0], message.edge[1]); break;
 	    case 'editContent': EditContent(message['content'].ID, message['content'].content); break;
 	    case 'tree': InitializeGraph(message.nodes, message.edges); DrawEverything(); break;
 	};

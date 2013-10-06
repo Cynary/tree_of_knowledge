@@ -42,7 +42,7 @@ function InitializeGraph(nodes, edges){
     for (i in nodes){
 	AddNode(nodes[i].name, nodes[i].content, nodes[i].ID);}
     for (i in edges){
-	AddEdge(edges[i].parentID, edges[i].childID);}
+	AddEdge(edges[i][0], edges[i][1]);}
 }
 
 function Clear(nodeID){   
@@ -53,7 +53,7 @@ function Clear(nodeID){
 function EditContent(nodeID, newContent){
     Nodes[nodeID].content = newContent;
     if( nodeID in NodesVisible){
-	NodeVisible[nodeID].data.content = newContent;
+	NodesVisible[nodeID].data.content = newContent;
     }
 }
 
@@ -229,7 +229,7 @@ $("#viewport").click(function(e){
 	    if(edgeOp) {
 		switch(edgeOp) {
 		    case 1: parent = dragged.node.data.ID; edgeOp = 2; break;
-		    case 2: child = dragged.node.data.iD; edgeOp = false; edgeFn(parent,child); console.log(parent,child); break;
+		    case 2: child = dragged.node.data.ID; edgeOp = false; edgeFn(parent,child); console.log(parent,child); break;
 		}
 	    }
 	    else {
