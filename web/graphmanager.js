@@ -1,3 +1,26 @@
+/*var DocWidth = document.body.clientWidth;
+
+function setDivWidth(DocWidth){
+    var Tree = document.getElementById('viewport');
+    Tree.style.width=DocWidth/3 + "px";
+    Tree.style.borderColor= "blue";
+    Tree.style.borderStyle= "solid"
+    Tree.style.height = "500px"
+    var Content = document.getElementById('content');
+    Content.style.width=DocWidth*0.6 + "px"; 
+    Content.style.borderStyle="solid";
+    Content.style.borderColor="red";
+    Content.style.height = "500px"; 
+    var Content = document.getElementById('content');
+    Content.style.width=DocWidth*2/3 + "px"; 
+    Content.style.borderStyle="solid";
+    Content.style.borderColor="red";
+    Content.style.height = document.body.clientHeight; 
+    
+}
+setDivWidth(DocWidth);*/
+
+
 var Nodes = {}
 var Edges = {}
 
@@ -42,7 +65,7 @@ function ShowNode(nodeID)
 
 function ShowEdge(edgeID)
 {
-    return EdgesVisible[edgeID] = sys.addEdge(Nodes[Edges[edgeID].parentID], Nodes[Edges[edgeID].childID], {'color':'black', 'directed':true});
+    return EdgesVisible[edgeID] = sys.addEdge(NodesVisible[Edges[edgeID].parentID],NodesVisible[Edges[edgeID].childID], {'color':'black', 'directed':true});
 }
 
 function UnShowEdge(edgeID)
@@ -62,15 +85,17 @@ sys.renderer = Renderer("#viewport");
 AddNode( 'Tree of Knowledge', 'BIscoito', 0);
 AddNode( 'Math', 'Ananas', 1);
 AddNode('Philosophy', 'hotel',2);
-AddEdge(0,1);
-AddEdge(0,2);
-AddEdge(1,2);
 AddNode('Calculus', 'jarros', 3);
-AddEdge(1,3);
 ShowNode(0);
 ShowNode(1);
 ShowNode(2);
 ShowNode(3);
+AddEdge(0,1);
+AddEdge(0,2);
+AddEdge(1,2);
+AddEdge(1,3);
 ShowEdge(0);
+ShowEdge(1);
+ShowEdge(2);
 console.log(Edges);
 //ShowEdge(1);
