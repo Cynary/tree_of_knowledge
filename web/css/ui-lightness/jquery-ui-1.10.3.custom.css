@@ -1296,6 +1296,12 @@ a:hover {background-color:grey;}
 
 li {display:inline;}
 
+#add_button {
+	float: right;
+	
+
+}
+
 
 
 
