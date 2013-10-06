@@ -28,13 +28,14 @@ def addNode( name, content = '', keywords = set([]),  parents = [], children = [
     #print "Add node " + name
     n = node( name, keywords, content, parents, children)
     Tree[n.ID] = n
-    return {'command': 'addNode', 'node': nodeToDict(n)}
+    return {'command': 'addNode', 'content': nodeToDict(n)}
 
 def deleteNode(nodeID):
-    Tree[nodeID].deleteConnections()
-    n = Tree[nodeID]
-    del Tree[nodeID]
-    return {'command': 'deleteNode', 'node': n.ID}
+    if nodeID in Tree:
+        Tree[nodeID].deleteConnections()
+        n = Tree[nodeID]
+        del Tree[nodeID]
+        return {'command': 'deleteNode', 'node': n.ID}
 
 def addEdge(parID, childID):
     if parID in Tree and childID in Tree:
@@ -44,9 +45,11 @@ def addEdge(parID, childID):
         print "Error - It is not on the Tree"
 
 def deleteEdge(parentID, childID):
-    Tree[parentID].removeChild(Tree[childID])
-    return {'command': 'deleteEdge', 'edge': [parentID, childID]}
+    if childID in Tree[parentID].children:
+        Tree[parentID].removeChild(Tree[childID])
+        return {'command': 'deleteEdge', 'edge': [parentID, childID]}
 
 def editContent(nodeID, newContent):
-    Tree[nodeID].editContent(newContent)
-    return {'command': 'editContent', 'content': nodeToDict(Tree[nodeID])}
+    if nodeID in Tree:
+        Tree[nodeID].editContent(newContent)
+        return {'command': 'editContent', 'content': nodeToDict(Tree[nodeID])}

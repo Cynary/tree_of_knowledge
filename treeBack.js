@@ -1,5 +1,5 @@
 var PORT = 5000
-var HOST = "..."
+var HOST = "localhost"
 
 function Graph(port, host) {
     try {
