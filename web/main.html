@@ -161,16 +161,20 @@
 
 
 <div id="tree">
-<canvas id="viewport" width="800" height="600"></canvas>
+<canvas id="viewport" width="600" height="600"></canvas>
+<script src="/ckeditor/ckeditor.js"></script>
+<textarea name="editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+<script>CKEDITOR.replace( 'editor' );</script>
 <script language ="javascript" type="text/javascript">
 	var sys = arbor.ParticleSystem(100, 100,1,1,60); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
 	sys.parameters({gravity:false});
 	sys.renderer = Renderer("#viewport");
+
 	var root = sys.addNode('Root',{'color':'black','box':'dot','label':'Tree of Knowledge'});
 	var math = sys.addNode('Math', {'color':'blue', 'box':'dot', 'label':'Math'});
 	var cat = sys.addNode('Cat', {'color':'blue', 'shape':'dot', 'label':'dog'});
-	var ed = sys.addEdge(root, math, {'directed': true, 'color':'black'})
-	var edg = sys.addEdge(root, cat)
+	var ed = sys.addEdge(root, math, {'directed': true, 'color':'black'});
+	var edg = sys.addEdge(root, cat);
 
 </script>
 
