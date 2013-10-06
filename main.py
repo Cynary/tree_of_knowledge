@@ -34,7 +34,8 @@ def serverThread(connHandle):
 
         # False message means connection closed
         else:
-            connHandle.closeConn()
+            connHandle.connLock.release()
+            connHandle.close()
             return
 
         # lol what if we didn't do this
@@ -42,6 +43,7 @@ def serverThread(connHandle):
 
 class connectionHandler(websocket.WebSocketHandler):
     def open(self,host):
+        print host
         try:
             # Extract hostname and port from arguments
             hostname,port = host.split(';')
@@ -55,8 +57,6 @@ class connectionHandler(websocket.WebSocketHandler):
         self.serverConn = socket.socket()
         # Create a closedIndicator object for this connection
         self.closedIndicator = closedIndicator()
-
-        print hostname, port
 
         try:
             # Connect to specified server and port
@@ -84,16 +84,17 @@ class connectionHandler(websocket.WebSocketHandler):
             self.serverConn.sendall(message)
         except:
             # In case of error just quit the connection
-            self.closeConn()
+            self.close()
         
         # Release the lock
         self.connLock.release()
-        
-    def closeConn(self):
-        self.closedIndicator.close()
-        self.serverConn.close()
-        self.close()
 
+    def on_close(self):
+        print "Closing!"
+        self.closedIndicator.close()
+        self.serverConn.shutdown(socket.SHUT_RDWR)
+        self.serverConn.close()
+        
 application = web.Application([
         (r"/(.*)", connectionHandler),
         ])
