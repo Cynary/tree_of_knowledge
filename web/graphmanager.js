@@ -21,15 +21,12 @@ function setDivWidth(DocWidth){
 setDivWidth(DocWidth);*/
 var Focused = -1;
 
-
 var Nodes = {}
 var Edges = {}
 
 var NodesVisible = {}
 var EdgesVisible = {}
 var EdgeCount = 0
-
-
 
 var FocusOrder = [];
 var FocusCounter = 0;
