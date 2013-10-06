@@ -46,7 +46,7 @@
 		Add = document.getElementById('add_button');
 		Add.onclick = function(){
 			//display text editor
-			Display(1);
+			Display(1);			
 			var Tree = document.getElementById('viewport');
 			Tree.style.width=DocWidth*0.45 + 'px';
 			var editor_block= document.getElementById('add_block');
@@ -54,6 +54,8 @@
 			editor_block.style.width=DocWidth*0.45 + "px"; 
 			var editor = document.getElementById('text_editor');
 			editor_block.style.height = Editor.height; 
+			
+			edt.setData("ABC");
 		}
 	</script>
 </div>
@@ -62,7 +64,7 @@
 <div id="editor_block" style="display:none;">
 <textarea name="editor" id="text_editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
 <script>
-CKEDITOR.replace( 'editor' );
+var edt = CKEDITOR.replace( 'editor' );
 CKEDITOR.plugins.registered['save']=
       {
            init : function( editor )
@@ -109,6 +111,7 @@ function Display(content) {
 	if(content==1) {
 		//display text editor
                 // Set default value to Nodes[Focused].content here
+                CKEDITOR.instances['text_editor'].setData(Nodes[Focused].content);
                 Tree.width=DocWidth*0.45;
                 Tree.style.width = (DocWidth*0.45) + "px"
 		editor_block.style.width=DocWidth*0.45 + "px"; 
