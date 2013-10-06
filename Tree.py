@@ -19,6 +19,7 @@ def searchNode(keywords):
     for i in Tree.values():
         matched = [k for k in keys if k in i.getKeywords()]
         if len(matched) !=0:
+            print i
             matches.append([-float(len(matched))/len(i.keywords), -len(matched), i])
     
     matches.sort()

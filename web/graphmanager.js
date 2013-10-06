@@ -40,12 +40,18 @@ var FocusCounter = 0;
 
 function InitializeGraph(nodes, edges){
     for (i in nodes){
-	AddNode(nodes[i].name, nodes[i].content, nodes[i].ID);}
+	if(nodes[i].name == null) {
+	    AddNode("", nodes[i].content, nodes[i].ID);
+	}
+	else {
+	    AddNode(nodes[i].name, nodes[i].content, nodes[i].ID);
+	}
+    }
     for (i in edges){
 	AddEdge(edges[i][0], edges[i][1]);}
 }
 
-function Clear(nodeID){   
+function Clear(){
     for(i in NodesVisible){
 	UnShowNode(i);}
 }
@@ -227,8 +233,9 @@ $("#viewport").click(function(e){
             dragged.node.fixed = true;
 
 	    if(edgeOp) {
+		console.log(dragged);
 		switch(edgeOp) {
-		    case 1: parent = dragged.node.data.ID; edgeOp = 2; break;
+		    case 1: parent = dragged.node.data.ID; edgeOp = 2; break
 		    case 2: child = dragged.node.data.ID; edgeOp = false; edgeFn(parent,child); console.log(parent,child); break;
 		}
 	    }

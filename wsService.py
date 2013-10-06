@@ -55,7 +55,7 @@ def serviceFunc(conn, addr):
         print changes
 
         if changes is not None:
-            if 'found' in changes:
+            if 'command' in changes and changes['command'] == 'found':
                 with USERSONLINELOCK:
                     conn.sendall(json.dumps(changes))
                 continue
