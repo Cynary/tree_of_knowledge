@@ -22,11 +22,12 @@
 	<input type="submit" id ='submit'>
 	<script>
 		var query_string;
-		function query_string(){ 
-			query_string = document.getElementById('query').value;
-		}
 		var Sub = document.getElementById('submit');
-		Sub.onclick= query_string();
+		Sub.onclick= function(){
+		query_string = document.getElementById('query').value;
+			console.log("Hello");
+			AddFocus(0);
+		}
 	</script>
 
 	<ul id="menu">
@@ -45,6 +46,7 @@
 		Add = document.getElementById('add_button');
 		Add.onclick = function(){
 			//display text editor
+			Display(1);
 			var Tree = document.getElementById('viewport');
 			Tree.style.width=DocWidth*0.45 + 'px';
 			var editor_block= document.getElementById('add_block');
