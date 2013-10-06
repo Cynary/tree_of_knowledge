@@ -15,6 +15,19 @@
 </head>
 <body>
 
+<div id="search">
+	<input type="text" id="query">
+	<input type="submit" id ='submit'>
+	<script>
+		var query_string;
+		function query_string(){ 
+			query_string = document.getElementById('query').value;
+		}
+		var Sub = document.getElementById('submit');
+		Sub.onclick= query_string();
+	</script>
+</div>
+
 <div id="tree">
 <canvas id="viewport" width="800" height="600"></canvas>
 <script src = "graphmanager.js"></script>
@@ -71,32 +84,9 @@ function Display(content) {
 		editor_block.style.height = Editor.height; 
 	}
 }
-var kk = true;
+var kk = false;
+//Display(false);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-
-	/*
-	function setDivWidth(DocWidth){
-		var Tree = document.getElementById('viewport');
-		Tree.style.width=DocWidth*0.3 + "px";
-		Tree.style.borderColor= "blue";
-		Tree.style.borderStyle= "solid"
-		Tree.style.height = "500px"
-		var Content = document.getElementById('editor_block');
-		Content.style.width=DocWidth*0.6 + "px"; 
-		Content.style.borderStyle="solid";
-		//Content.style.borderColor="red";
-		var Editor = document.getElementById('text_editor');
-		Content.style.height = Editor.height; 
-	}
-	setDivWidth(DocWidth);
-	*/
->>>>>>> 6acc1d262131d1df48094cebd4c26f4a053b8435
-=======
->>>>>>> 8242acda34fb1e58f4696da23d156deab13f3aa6
 </script>
 <script src = "graphmanager.js"></script>
 
