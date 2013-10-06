@@ -3,9 +3,9 @@ var HOST = "18.182.6.123"
 
 function Graph(port, host) {
     try {
-	this.ws = new WebSocket("ws://" + host + ":8888/localhost;" + port);
+	this.ws = new WebSocket("ws://" + host + ":8889/localhost;" + port);
     } catch(err) {
-	this.ws = new MozWebSocket("ws://" + host + ":8888/localhost;" + port);
+	this.ws = new MozWebSocket("ws://" + host + ":8889/localhost;" + port);
     }
     this.ws.onmessage = function(evt) {
 	var message = JSON.parse(evt.data);

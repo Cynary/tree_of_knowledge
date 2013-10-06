@@ -35,8 +35,7 @@ function InitializeGraph(nodes, edges){
 	AddEdge(i.parentID, i.childID);}
 }
 
-function Focus(nodeID){
-    
+function Focus(nodeID){   
     for(i in NodesVisible){
 	UnShowNode(i);}
 
@@ -47,7 +46,6 @@ function Focus(nodeID){
 	for(i in Edges){
 	    ShowEdge(i);}
     }
-   
     ShowNode(nodeID);
     //console.log(Nodes[nodeID].edgesFrom);
     for(i in Nodes[nodeID].edgesFrom){
@@ -58,7 +56,10 @@ function Focus(nodeID){
 	ShowNode(Nodes[nodeID].edgesTo[i][1]);
 	ShowEdge(i);
     }
-   
+}
+
+function AddFocus(nodeID){
+console.log(nodeID);
 }
 
 function AddNode(name, content, ID){
@@ -92,7 +93,7 @@ function RemoveEdge(parentID, childID){
 
 function ShowNode(nodeID)
 {
-    return NodesVisible[nodeID] = sys.addNode(Nodes[nodeID].name, {'color':'black', 'shape':'box', 'label': Nodes[nodeID].name, 'content':Nodes[nodeID].cont});
+    return NodesVisible[nodeID] = sys.addNode(Nodes[nodeID].name, {'color':'black', 'shape':'box', 'label': Nodes[nodeID].name, 'content':Nodes[nodeID].cont, 'ID':nodeID});
 }
 
 function ShowEdge(edgeID)
@@ -114,7 +115,7 @@ function UnShowNode(nodeID){
 var sys = arbor.ParticleSystem(100, 100,1,1,60); //arguments are repulsion, stiffness, friction, gravity, fps, dt, precision
 sys.parameters({gravity:false});
 sys.renderer = Renderer("#viewport");
-	
+
 AddNode( 'Tree of Knowledge', 'BIscoito', 0);
 AddNode( 'Math', 'Ananas', 1);
 AddNode('Philosophy', 'hotel',2);
@@ -149,3 +150,16 @@ for(var i = 0; i<9; i++) ShowEdge(i);
 //console.log(Nodes[0].edgesFrom);
 Focus(1);
 //Focus(-1);
+
+$("#tree").mousedown(function(e){
+    var pos = $(this).offset();
+    var p = {x:e.pageX-pos.left, y:e.pageY-pos.top}
+    selected = nearest = dragged = particleSystem.nearest(p);
+
+    if (selected.node !== null){
+        // dragged.node.tempMass = 10000
+        dragged.node.fixed = true;
+	AddFocus(dragged.node.data.ID);
+    }
+    return false;
+});
