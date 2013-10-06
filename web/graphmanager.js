@@ -19,6 +19,7 @@ function setDivWidth(DocWidth){
     
 }
 setDivWidth(DocWidth);*/
+var Focused = -1;
 
 
 var Nodes = {}
@@ -26,7 +27,9 @@ var Edges = {}
 
 var NodesVisible = {}
 var EdgesVisible = {}
-var EdgeCount = 0;
+var EdgeCount = 0
+
+
 
 var FocusOrder = [];
 var FocusCounter = 0;
@@ -44,6 +47,12 @@ function Clear(nodeID){
 	UnShowNode(i);}
 }
  
+function EditContent(nodeID, newContent){
+    Nodes[nodeID].content = newContent;
+    if( nodeID in NodesVisible){
+	NodeVisible[nodeID].data.content = newContent;
+    }
+}
 
 function DrawEverything(){   //SHOW everything if not focused
     for(i in Nodes){
@@ -177,7 +186,6 @@ AddNode('Camus', 'jarros', 7);
 AddNode('Linear Algebra', 'hotel',8);
 AddNode('Matrix', 'jarros', 9);
 
-
 AddEdge(0,1);
 AddEdge(0,2);
 AddEdge(0,4);
@@ -207,27 +215,29 @@ $("#viewport").click(function(e){
     console.log(e);
    
 
-    if (selected.node !== null && nearest.distance < 20 && e.timeStamp - lastTimestamp > 1 ){
-	lastTimestamp = e.timeStamp;
-        // dragged.node.tempMass = 10000
-        dragged.node.fixed = true;
-	 console.log(FocusOrder);
-	console.log(dragged.node.data.ID);
-	var inside = false;
-	for(var i=0; i<FocusOrder.length; i++)
-	    if( FocusOrder[i] == dragged.node.data.ID) inside = true;
-	console.log(inside);
+    if (selected.node !== null && nearest.distance < 20){
+	if(e.timeStamp - lastTimestamp > 1 ){
+	    lastTimestamp = e.timeStamp;
+	    // dragged.node.tempMass = 10000
+            dragged.node.fixed = true;
+	    Focused = dragged.node.data.ID;
+	    var inside = false;
+	    for(var i=0; i<FocusOrder.length; i++)
+		if( FocusOrder[i] == dragged.node.data.ID) inside = true;
+	    //console.log(inside);
 
-	if( inside &&  !(dragged.node.data.ID == 0)){
-	    RemoveFocus(dragged.node.data.ID);
+	    if( inside &&  !(dragged.node.data.ID == 0)){
+		RemoveFocus(dragged.node.data.ID);
+	    }
+	    else if( !(dragged.node.data.ID == 0)) {
+		//console.log(dragged.node.data.ID);
+		AddFocus(dragged.node.data.ID);
+	    }
 	}
-	else if( !(dragged.node.data.ID == 0)) {
-	    console.log(dragged.node.data.ID);
-	    AddFocus(dragged.node.data.ID);
-	}
-	
     }
-    e.stopPropagation();
-    e.preventDefault();
+    
+    else{ Focused = -1;}
+    
+
     return false;
 });
