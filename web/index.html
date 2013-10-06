@@ -15,6 +15,19 @@
 </head>
 <body>
 
+<div id="search">
+	<input type="text" id="query">
+	<input type="submit" id ='submit'>
+	<script>
+		var query_string;
+		function query_string(){ 
+			query_string = document.getElementById('query').value;
+		}
+		var Sub = document.getElementById('submit');
+		Sub.onclick= query_string();
+	</script>
+</div>
+
 <div id="tree">
 <canvas id="viewport" width="800" height="600"></canvas>
 <script src = "graphmanager.js"></script>
