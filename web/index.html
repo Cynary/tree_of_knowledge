@@ -9,110 +9,14 @@
 	
 	
 	<script>
-	/*
-	$(function() {
-		
-		$( "#accordion" ).accordion();
-		
-		var availableTags = [
-			"ActionScript",
-			"AppleScript",
-			"Asp",
-			"BASIC",
-			"C",
-			"C++",
-			"Clojure",
-			"COBOL",
-			"ColdFusion",
-			"Erlang",
-			"Fortran",
-			"Groovy",
-			"Haskell",
-			"Java",
-			"JavaScript",
-			"Lisp",
-			"Perl",
-			"PHP",
-			"Python",
-			"Ruby",
-			"Scala",
-			"Scheme"
-		];
-		$( "#autocomplete" ).autocomplete({
-			source: availableTags
-		});
-		
-
-		
-		$( "#button" ).button();
-		$( "#radioset" ).buttonset();
-		
-
-		
-		$( "#tabs" ).tabs();
-		
-
-		
-		$( "#dialog" ).dialog({
-			autoOpen: false,
-			width: 400,
-			buttons: [
-				{
-					text: "Ok",
-					click: function() {
-						$( this ).dialog( "close" );
-					}
-				},
-				{
-					text: "Cancel",
-					click: function() {
-						$( this ).dialog( "close" );
-					}
-				}
-			]
-		});
-
-		// Link to open the dialog
-		$( "#dialog-link" ).click(function( event ) {
-			$( "#dialog" ).dialog( "open" );
-			event.preventDefault();
-		});
-		
-
-		
-		
-		
-
-		
-		$( "#slider" ).slider({
-			range: true,
-			values: [ 17, 67 ]
-		});
-		
-
-		
-		$( "#progressbar" ).progressbar({
-			value: 20
-		});
-		
-
-		// Hover states on the static widgets
-		$( "#dialog-link, #icons li" ).hover(
-			function() {
-				$( this ).addClass( "ui-state-hover" );
-			},
-			function() {
-				$( this ).removeClass( "ui-state-hover" );
-			}
-		);
-	});
-	*/
+	
 	</script>
 
 	<script language="javascript" type="text/javascript" src="jquery.min.js"></script>
 	<script language="javascript" type="text/javascript" src="arbor.js"></script>
 	<script language="javascript" type="text/javascript" src="graphics.js"></script>
 	<script language="javascript" type="text/javascript" src="renderer.js"></script>
+	<script language="javascript" type="text/javascript" src="functionality.js"></script>
 	
 	<style>
 	body{
@@ -126,7 +30,7 @@
 		padding: .4em 1em .4em 20px;
 		text-decoration: none;
 		position: relative;
-	
+	}
 	#dialog-link span.ui-icon {
 		margin: 0 5px 0 0;
 		position: absolute;
@@ -159,9 +63,18 @@
 
 
 
-
+<div id="tree">
 <canvas id="viewport" width="800" height="600"></canvas>
-<script src="graphmanager.js"></script>
+
+</div> 
+
+<div id="content">
+<textarea name="editor">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+<script>
+    CKEDITOR.replace( 'editor' );
+</script>
+
+
 
 </body>
 </html>
