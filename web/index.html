@@ -24,9 +24,9 @@
 		var query_string;
 		var Sub = document.getElementById('submit');
 		Sub.onclick= function(){
-		query_string = document.getElementById('query').value;
-			console.log("Hello");
-			AddFocus(0);
+		    query_string = document.getElementById('query').value;
+		    document.getElementById('query').value = ''
+		    knowledgeTree.searchNode(query_string);
 		}
 	</script>
 
@@ -34,32 +34,22 @@
 		<li><a href="#">Contact</a></li>
 		<li><a href="#">Docs</a></li>
 		<li><a href="#">About</a></li>
-		<li><a href="#">Home</a></li>
+		<li><a href="#" onclick="Display(2)">Home</a></li>
 	</ul>
 </div>
 
 <div id="tree">
 <canvas id="viewport" width="900" height="400"></canvas>
-
-
 <div id="edit">
 	<input type="submit" id="delete_edge" value="Delete Edge">
 	<input type="submit" id="add_edge" value ="Add Edge">
-	<input type="submit" id="add_button" value="Edit">
+	<input type="submit" id="add_button" value="Edit" onclick="Display(1)">
 	<input type="submit" id="add_node" value="Add Node">
-	
-	<script>
-		Add = document.getElementById('add_button');
-		Add.onclick = function(){
-			//display text editor
-			Display(1);
-		}
-	</script>
 	<script>
 		Add_Node = document.getElementById('add_node');
 		Add_Node.onclick = function(){
 			var node_name = prompt ("Please enter a name for the node!", "New Node!");
-			AddNode(node_name, "");
+		        knowledgeTree.addNode(node_name, "")
 		}
 	</script>
 </div>
@@ -116,14 +106,13 @@ function Display(content) {
 	if(content==1) {
 		//display text editor
                 // Set default value to Nodes[Focused].content here
+                CKEDITOR.instances['text_editor'].setData(Nodes[Focused].content);
                 Tree.width=DocWidth*0.45;
                 Tree.style.width = (DocWidth*0.45) + "px"
 		editor_block.style.width=DocWidth*0.45 + "px"; 
 		Editor.style.display = "inline";
                 editor_block.style.display = "inline";
 		editor_block.style.height = Editor.height;
-
-		edt.setData("ABC");
                 content_block.style.display = "none"
                 content_block.style.height = "0px";
 	}
@@ -144,7 +133,7 @@ Display(0);
 
 </script>
 
-<div id="content_block" style="visibility:hidden;">
+<div id="content_block" style="display:none;">
 </div>
 
 </body>
